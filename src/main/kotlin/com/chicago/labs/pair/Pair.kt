@@ -2,7 +2,7 @@ package com.chicago.labs.pair
 
 import com.chicago.labs.humans.Human
 
-class Pair(
+data class Pair(
     var first: Human,
     var second: Human? = null
 )

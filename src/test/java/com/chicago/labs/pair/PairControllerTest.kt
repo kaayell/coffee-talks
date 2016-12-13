@@ -12,6 +12,7 @@ import org.mockito.Mockito.verify
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -30,8 +31,8 @@ class PairControllerTest {
     }
 
     @Test
-    fun `has a GET endpoint`() {
-        doReturn(listOf(Pair(Human(), Human()))).whenever(pairService).match()
+    fun `has a pair GET endpoint`() {
+        doReturn(PairingList("1234", listOf(Pair(Human(), Human())))).whenever(pairService).match()
         mockMvc.perform(get("/pair")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isNotEmpty)
@@ -40,9 +41,18 @@ class PairControllerTest {
 
     @Test
     fun `calls service to get all on GET`() {
-        doReturn(listOf(Pair(Human(), Human()))).whenever(pairService).match()
+        doReturn(PairingList("1234", listOf(Pair(Human(), Human())))).whenever(pairService).match()
         val humans = pairController.get()
-        assertThat(humans).isEqualTo(listOf(Pair(Human(), Human())))
+        assertThat(humans).isEqualTo(PairingList("1234", listOf(Pair(Human(), Human()))))
         verify(pairService).match()
+    }
+
+    @Test
+    fun `has a pair record POST endpoint`() {
+        mockMvc.perform(post("/pair/record/818191010")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk)
+
+        verify(pairService).record("818191010")
     }
 }

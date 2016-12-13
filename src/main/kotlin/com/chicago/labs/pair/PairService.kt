@@ -9,9 +9,12 @@ import java.util.*
 @Service
 open class PairService
 @Autowired constructor(var humanRepository: HumanRepository,
+                       var pairingListRepository: PairingListRepository,
                        var shuffleService: ShuffleService,
-                       var matcherService: MatcherService) {
-    open fun match(): List<Pair> {
+                       var matcherService: MatcherService,
+                       var recorderService: RecorderService) {
+
+    open fun match(): PairingList {
         val humans = shuffleService.shuffle(humanRepository.findAll())
 
         val pairs = ArrayList<Pair>()
@@ -20,16 +23,25 @@ open class PairService
         val alreadyMatched = HashSet<Human>()
 
         humanSet.forEach {
-            if(!alreadyMatched.contains(it)) {
+            if (!alreadyMatched.contains(it)) {
                 val matchForHuman = matcherService.findBestMatch(it.email!!, humans, alreadyMatched)
                 pairs.add(Pair(it, matchForHuman))
-                alreadyMatched.add(matchForHuman)
+                if (matchForHuman != null) {
+                    alreadyMatched.add(matchForHuman)
+                }
             }
 
             alreadyMatched.add(it)
         }
 
-        return pairs
+        val pairingList = PairingList(UUID.randomUUID().toString(), pairs)
+        pairingListRepository.save(pairingList)
+        return pairingList
+    }
+
+    open fun record(pairListId: String) {
+        val pairingList = pairingListRepository.findOne(pairListId)
+        recorderService.record(pairingList.pairingList)
     }
 
 }
