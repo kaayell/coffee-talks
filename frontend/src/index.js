@@ -1,9 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import {render} from "react-dom";
+import { Provider } from 'react-redux'
+import {syncHistoryWithStore, routerMiddleware, routerReducer} from "react-router-redux";
+import {Router, Route, hashHistory} from "react-router";
+import App from "./components/App";
+import createSagaMiddleware from "redux-saga";
+import {createStore, applyMiddleware, combineReducers} from "redux";
+import reducers from "./reducers/rootReducer";
 
-import Detail from './pages/Detail';
+export const sagaMiddleware = createSagaMiddleware();
+export const store = createStore(
+    reducers,
+    applyMiddleware(
+        routerMiddleware(hashHistory),
+        sagaMiddleware
+    )
+);
+// sagaMiddleware.run()
 
-ReactDOM.render(
-    <Detail />,
+export const history = syncHistoryWithStore(hashHistory, store);
+
+render(
+    <Provider store={ store }>
+        <Router history={ history }>
+            <Route path="/" component={ App }>
+            </Route>
+        </Router>
+    </Provider>,
     document.getElementById('app')
 );
