@@ -1,5 +1,6 @@
 package com.chicago.labs.pair
 
+import com.chicago.labs.pair.domain.PairHistory
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 

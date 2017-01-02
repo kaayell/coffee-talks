@@ -1,6 +1,9 @@
 package com.chicago.labs.pair
 
 import com.chicago.labs.humans.Human
+import com.chicago.labs.pair.domain.Pair
+import com.chicago.labs.pair.domain.PairHistory
+import com.chicago.labs.pair.recording.RecorderService
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.doReturn
 import org.assertj.core.api.Assertions.assertThat

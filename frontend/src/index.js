@@ -1,3 +1,5 @@
+import 'babel-polyfill';
+
 import React from 'react'
 import {render} from "react-dom";
 import { Provider } from 'react-redux'
@@ -7,6 +9,7 @@ import App from "./components/App";
 import createSagaMiddleware from "redux-saga";
 import {createStore, applyMiddleware, combineReducers} from "redux";
 import reducers from "./reducers/rootReducer";
+import rootSaga from './sagas/rootSaga'
 
 export const sagaMiddleware = createSagaMiddleware();
 export const store = createStore(
@@ -16,7 +19,7 @@ export const store = createStore(
         sagaMiddleware
     )
 );
-// sagaMiddleware.run()
+sagaMiddleware.run(rootSaga);
 
 export const history = syncHistoryWithStore(hashHistory, store);
 

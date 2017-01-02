@@ -1,7 +1,9 @@
-package com.chicago.labs.pair
+package com.chicago.labs.pair.matching
 
 import com.chicago.labs.humans.Human
 import com.chicago.labs.humans.HumanRepository
+import com.chicago.labs.pair.domain.PairHistory
+import com.chicago.labs.pair.PairHistoryRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

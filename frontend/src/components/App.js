@@ -1,9 +1,29 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux'
+import {fetchPairingList} from '../actions/actions'
 
-class App extends React.Component {
+export class App extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    componentWillMount() {
+        this.props.fetchPairingList();
+    }
+
     render() {
         return <p>This is React rendering HTML!</p>;
     }
 }
 
-export default App;
+App.propTypes = {
+  fetchPairingList: PropTypes.func.isRequired
+};
+
+function mapStateToProps(state) {
+    return {
+        pairingList: state.pairingList
+    }
+}
+export default connect(null, {fetchPairingList})(App)

@@ -1,4 +1,4 @@
-package com.chicago.labs.pair
+package com.chicago.labs.pair.matching
 
 import com.chicago.labs.humans.Human
 import org.springframework.stereotype.Service

@@ -1,11 +1,9 @@
 package com.chicago.labs.humans
 
-import com.chicago.labs.pair.Pair
 import com.chicago.labs.pair.PairService
-import com.chicago.labs.pair.PairingList
+import com.chicago.labs.pair.domain.PairingList
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-
 
 @RestController
 @RequestMapping("/pair")
@@ -20,6 +18,11 @@ open class PairController
     @PostMapping("/record/{id}")
     open fun post(@PathVariable id: String) {
         pairService.record(id)
+    }
+
+    @GetMapping("/latest")
+    open fun getLatest(): PairingList {
+        return pairService.latest()
     }
 }
 
