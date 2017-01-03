@@ -1,12 +1,13 @@
 package com.chicago.labs.humans
 
 import com.chicago.labs.pair.PairService
-import com.chicago.labs.pair.domain.PairingList
+import com.chicago.labs.domain.PairingList
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/pair")
+@CrossOrigin
 open class PairController
 @Autowired constructor(var pairService: PairService) {
 

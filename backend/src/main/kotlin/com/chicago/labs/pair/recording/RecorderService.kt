@@ -1,11 +1,10 @@
 package com.chicago.labs.pair.recording
 
-import com.chicago.labs.pair.domain.Pair
-import com.chicago.labs.pair.domain.PairHistory
+import com.chicago.labs.domain.Pair
+import com.chicago.labs.domain.PairHistory
 import com.chicago.labs.pair.PairHistoryRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.time.Instant
 import java.util.*
 
 @Service
@@ -18,9 +17,9 @@ open class RecorderService
             } else {
                 pair.second!!.email
             }
-            val pairHistory = pairHistoryRepository.findOneByEmailOneAndEmailTwo(pair.first.email!!, emailTwo!!)
+            val pairHistory = pairHistoryRepository.findOneByEmailOneAndEmailTwo(pair.first?.email!!, emailTwo!!)
             if(pairHistory == null) {
-                pairHistoryRepository.save(PairHistory(emailOne = pair.first.email!!, emailTwo = emailTwo))
+                pairHistoryRepository.save(PairHistory(emailOne = pair.first?.email!!, emailTwo = emailTwo))
             } else {
                 pairHistory.timesPaired++
                 pairHistory.lastPairDate = Date()

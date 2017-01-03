@@ -1,9 +1,9 @@
 package com.chicago.labs.pair
 
-import com.chicago.labs.humans.Human
+import com.chicago.labs.domain.Human
 import com.chicago.labs.humans.PairController
-import com.chicago.labs.pair.domain.Pair
-import com.chicago.labs.pair.domain.PairingList
+import com.chicago.labs.domain.Pair
+import com.chicago.labs.domain.PairingList
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.assertj.core.api.Assertions.assertThat

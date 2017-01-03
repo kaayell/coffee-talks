@@ -1,18 +1,17 @@
 import {combineReducers} from "redux";
 import {routerReducer} from "react-router-redux";
+import {PAIRING_LIST} from "../actions/types"
 
-export function counter(state = 0, action) {
+export function pairingList(state = [], action = {}) {
     switch (action.type) {
-        case 'INCREMENT':
-            return state + 1
-        case 'DECREMENT':
-            return state - 1
+        case PAIRING_LIST:
+            return action.pairingList;
         default:
-            return state
+            return state;
     }
 }
 
 export default combineReducers({
-    counter,
+    pairingList,
     routing: routerReducer
 })

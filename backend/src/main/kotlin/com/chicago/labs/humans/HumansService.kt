@@ -1,5 +1,6 @@
 package com.chicago.labs.humans
 
+import com.chicago.labs.domain.Human
 import org.springframework.stereotype.Service
 import org.springframework.beans.factory.annotation.Autowired
 

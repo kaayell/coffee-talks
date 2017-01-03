@@ -1,5 +1,6 @@
 package com.chicago.labs.humans
 
+import com.chicago.labs.domain.Human
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.assertj.core.api.Assertions.assertThat

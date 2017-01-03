@@ -1,9 +1,9 @@
 package com.chicago.labs.pair
 
-import com.chicago.labs.humans.Human
+import com.chicago.labs.domain.Human
 import com.chicago.labs.humans.HumanRepository
-import com.chicago.labs.pair.domain.Pair
-import com.chicago.labs.pair.domain.PairingList
+import com.chicago.labs.domain.Pair
+import com.chicago.labs.domain.PairingList
 import com.chicago.labs.pair.error.PairingListNotFoundException
 import com.chicago.labs.pair.matching.MatcherService
 import com.chicago.labs.pair.matching.ShuffleService

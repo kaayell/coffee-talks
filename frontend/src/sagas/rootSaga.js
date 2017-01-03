@@ -1,14 +1,20 @@
-import {takeEvery, fork} from 'redux-saga';
+import {takeEvery} from 'redux-saga';
+import { call, put } from 'redux-saga/effects'
 import * as actionTypes from '../actions/types'
+import {apiGet} from "../api/api"
+import {pairingList} from '../actions/actions'
 
-function* fetchPairingList(){
-    console.log("hi");
+export function* fetchLatestPairingList() {
+    try {
+        const response = yield call(apiGet, '/pair/latest');
+        yield put(pairingList(response.data.pairingList));
+    } catch (error) {}
 }
 
-function* watchFetchPairingList() {
-    yield takeEvery(actionTypes.FETCH_PAIRING_LIST, fetchPairingList)
+export function* watchFetchLatestPairingList() {
+    yield takeEvery(actionTypes.FETCH_LATEST_PAIRING_LIST, fetchLatestPairingList)
 }
 
 export default function* rootSaga() {
-    yield watchFetchPairingList()
+    yield watchFetchLatestPairingList()
 }

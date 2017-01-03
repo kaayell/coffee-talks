@@ -1,8 +1,8 @@
 package com.chicago.labs.pair
 
-import com.chicago.labs.pair.domain.PairingList
-import org.springframework.data.repository.CrudRepository
+import com.chicago.labs.domain.PairingList
+import org.springframework.data.mongodb.repository.MongoRepository
 
-interface PairingListRepository : CrudRepository<PairingList, String> {
+interface PairingListRepository : MongoRepository<PairingList, String> {
     fun findFirstByOrderByTimestampDesc(): PairingList
 }

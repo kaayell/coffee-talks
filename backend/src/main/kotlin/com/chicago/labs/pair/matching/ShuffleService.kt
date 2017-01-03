@@ -1,6 +1,6 @@
 package com.chicago.labs.pair.matching
 
-import com.chicago.labs.humans.Human
+import com.chicago.labs.domain.Human
 import org.springframework.stereotype.Service
 import java.util.*
 

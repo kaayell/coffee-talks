@@ -1,7 +1,6 @@
 package com.chicago.labs.humans
 
-import org.springframework.data.repository.CrudRepository
+import com.chicago.labs.domain.Human
+import org.springframework.data.mongodb.repository.MongoRepository
 
-interface HumanRepository : CrudRepository<Human, String> {
-    override fun findAll(): List<Human>
-}
+interface HumanRepository : MongoRepository<Human, String>

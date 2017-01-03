@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux'
-import {fetchPairingList} from '../actions/actions'
+import {fetchLatestPairingList} from '../actions/actions'
+import {Header} from "./Header"
 
 export class App extends Component {
 
@@ -9,16 +10,32 @@ export class App extends Component {
     }
 
     componentWillMount() {
-        this.props.fetchPairingList();
+        this.props.fetchLatestPairingList();
+    }
+
+    renderPairs() {
+        return this.props.pairingList.map(function (pair, index) {
+            return (
+                <div key={index} className="pair-container">
+                    <div className="pair">{pair.first.name}</div>
+                    <div className="pair">{pair.second ? pair.second.name : ""}</div>
+                </div>
+            );
+        })
     }
 
     render() {
-        return <p>This is React rendering HTML!</p>;
+        return (
+            <div>
+                <Header />
+                { this.renderPairs() }
+            </div>)
     }
 }
 
 App.propTypes = {
-  fetchPairingList: PropTypes.func.isRequired
+    fetchLatestPairingList: PropTypes.func.isRequired,
+    pairingList: PropTypes.array
 };
 
 function mapStateToProps(state) {
@@ -26,4 +43,4 @@ function mapStateToProps(state) {
         pairingList: state.pairingList
     }
 }
-export default connect(null, {fetchPairingList})(App)
+export default connect(mapStateToProps, {fetchLatestPairingList})(App)

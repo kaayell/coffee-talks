@@ -1,8 +1,8 @@
 package com.chicago.labs.pair
 
-import com.chicago.labs.humans.Human
+import com.chicago.labs.domain.Human
 import com.chicago.labs.humans.HumanRepository
-import com.chicago.labs.pair.domain.PairHistory
+import com.chicago.labs.domain.PairHistory
 import com.chicago.labs.pair.matching.MatcherService
 import org.junit.Before
 import org.junit.Test

@@ -1,7 +1,17 @@
-import {FETCH_PAIRING_LIST} from "./types";
+import {
+    FETCH_LATEST_PAIRING_LIST,
+    PAIRING_LIST
+} from "./types";
 
-export function fetchPairingList() {
+export function fetchLatestPairingList() {
     return {
-        type: FETCH_PAIRING_LIST
+        type: FETCH_LATEST_PAIRING_LIST
+    }
+}
+
+export function pairingList(pairingList) {
+    return {
+        type: PAIRING_LIST,
+        pairingList
     }
 }
