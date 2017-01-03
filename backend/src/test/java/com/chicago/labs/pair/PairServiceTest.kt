@@ -78,11 +78,11 @@ class PairServiceTest {
         doReturn(Human(email = "bob@burger.com")).whenever(matcherService).findBestMatch(eq("louise@burger.com"), any(), any())
         doReturn(Human(email = "gene@burger.com")).whenever(matcherService).findBestMatch(eq("tina@burger.com"), any(), any())
         val matches = pairService.match()
-        assertThat(matches.pairingList[0].first).isEqualTo(Human(email = "louise@burger.com"))
-        assertThat(matches.pairingList[0].second).isEqualTo(Human(email = "bob@burger.com"))
+        assertThat(matches.pairingList!![0].first).isEqualTo(Human(email = "louise@burger.com"))
+        assertThat(matches.pairingList!![0].second).isEqualTo(Human(email = "bob@burger.com"))
 
-        assertThat(matches.pairingList[1].first).isEqualTo(Human(email = "tina@burger.com"))
-        assertThat(matches.pairingList[1].second).isEqualTo(Human(email = "gene@burger.com"))
+        assertThat(matches.pairingList!![1].first).isEqualTo(Human(email = "tina@burger.com"))
+        assertThat(matches.pairingList!![1].second).isEqualTo(Human(email = "gene@burger.com"))
     }
 
     @Test
