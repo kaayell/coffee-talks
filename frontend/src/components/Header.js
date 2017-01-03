@@ -9,9 +9,11 @@ export class Header extends Component {
     render() {
         return (
             <div className="nav">
+                <div className="nav-section"></div>
                 <div className="nav-section">
-                    Coffee Talks
+                    <label>Coffee Talks</label>
                 </div>
+                <div className="nav-section"></div>
             </div>)
     }
 }

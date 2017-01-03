@@ -10,6 +10,7 @@ import createSagaMiddleware from "redux-saga";
 import {createStore, applyMiddleware, combineReducers} from "redux";
 import reducers from "./reducers/rootReducer";
 import rootSaga from './sagas/rootSaga'
+import css from './app.less';
 
 export const sagaMiddleware = createSagaMiddleware();
 export const store = createStore(

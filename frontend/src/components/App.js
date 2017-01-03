@@ -17,8 +17,14 @@ export class App extends Component {
         return this.props.pairingList.map(function (pair, index) {
             return (
                 <div key={index} className="pair-container">
-                    <div className="pair">{pair.first.name}</div>
-                    <div className="pair">{pair.second ? pair.second.name : ""}</div>
+                    <div className="pair">
+                        <div className="pair-name">{pair.first.name}</div>
+                        <div className="pair-email">{pair.first.email}</div>
+                    </div>
+                    <div className="pair">
+                        <div className="pair-name">{pair.second ? pair.second.name : ""}</div>
+                        <div className="pair-email">{pair.second ? pair.second.email: ""}</div>
+                    </div>
                 </div>
             );
         })

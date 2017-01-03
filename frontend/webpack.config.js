@@ -12,6 +12,9 @@ module.exports = {
             test: /\.js?$/,
             exclude: /node_modules/,
             loader: 'react-hot!babel'
+        }, {
+            test: /\.less$/,
+            loader: "style!css!less"
         }]
     },
     resolve: {

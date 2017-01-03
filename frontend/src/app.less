@@ -1,0 +1,57 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  background-color: rgb(234,237,239);
+}
+
+@font-family: 'Source Sans Pro', sans-serif;
+@teal-color: rgb(1,120,110);
+
+.nav {
+  background-color: @teal-color;
+  margin: 0;
+  padding: 10px;
+  display: flex;
+  flex-direction:row;
+  color: white;
+
+  .nav-section{
+    flex-grow: 1;
+    text-align: center;
+
+    label {
+      font-family: @font-family;
+      font-size: 30px;
+    }
+  }
+}
+
+.pair-container {
+  display: flex;
+  flex-direction: row;
+  margin: 30px;
+  padding: 20px;
+  background: white;
+  border: darkgray;
+  border-radius: 4px;
+
+  .pair {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background-color: @teal-color;
+    font-family: @font-family;
+    border-radius: 4px;
+    color: white;
+    margin-right: 10px;
+
+    .pair-name {
+      font-size: 16px;
+    }
+
+    .pair-email {
+      font-size: 12px;
+    }
+
+  }
+}
