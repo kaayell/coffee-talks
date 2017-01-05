@@ -1,16 +1,27 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux'
-import {fetchLatestPairingList} from '../actions/actions'
+import {fetchLatestPairingList, fetchNewPairs, recordPairingList} from '../actions/actions'
 import {Header} from "./Header"
 
 export class App extends Component {
 
     constructor(props) {
         super(props);
+
+        this.handleNewPairsClick = this.handleNewPairsClick.bind(this);
+        this.handleRecordPairsClick = this.handleRecordPairsClick.bind(this);
     }
 
     componentWillMount() {
         this.props.fetchLatestPairingList();
+    }
+
+    handleNewPairsClick() {
+        this.props.fetchNewPairs();
+    }
+
+    handleRecordPairsClick() {
+        this.props.recordPairingList(this.props.pairingListId);
     }
 
     renderPairs() {
@@ -23,7 +34,7 @@ export class App extends Component {
                     </div>
                     <div className="pair">
                         <div className="pair-name">{pair.second ? pair.second.name : ""}</div>
-                        <div className="pair-email">{pair.second ? pair.second.email: ""}</div>
+                        <div className="pair-email">{pair.second ? pair.second.email : ""}</div>
                     </div>
                 </div>
             );
@@ -34,19 +45,33 @@ export class App extends Component {
         return (
             <div>
                 <Header />
-                { this.renderPairs() }
+                <div className="button-container">
+                    <button onClick={this.handleNewPairsClick}>New Pairs</button>
+                    <button onClick={this.handleRecordPairsClick}>Record Pairs</button>
+                </div>
+                <div className="pair-list-container">
+                    { this.renderPairs() }
+                </div>
             </div>)
     }
 }
 
 App.propTypes = {
     fetchLatestPairingList: PropTypes.func.isRequired,
-    pairingList: PropTypes.array
+    fetchNewPairs: PropTypes.func.isRequired,
+    recordPairingList: PropTypes.func.isRequired,
+    pairingList: PropTypes.array,
+    pairingListId: PropTypes.string
 };
 
 function mapStateToProps(state) {
     return {
-        pairingList: state.pairingList
+        pairingList: state.pairingList,
+        pairingListId: state.pairingListId
     }
 }
-export default connect(mapStateToProps, {fetchLatestPairingList})(App)
+export default connect(mapStateToProps, {
+    fetchLatestPairingList,
+    fetchNewPairs,
+    recordPairingList
+})(App)

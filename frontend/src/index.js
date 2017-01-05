@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import {syncHistoryWithStore, routerMiddleware, routerReducer} from "react-router-redux";
 import {Router, Route, hashHistory} from "react-router";
 import App from "./components/App";
+import Humans from "./components/Humans";
 import createSagaMiddleware from "redux-saga";
 import {createStore, applyMiddleware, combineReducers} from "redux";
 import reducers from "./reducers/rootReducer";
@@ -27,8 +28,8 @@ export const history = syncHistoryWithStore(hashHistory, store);
 render(
     <Provider store={ store }>
         <Router history={ history }>
-            <Route path="/" component={ App }>
-            </Route>
+            <Route path="/" component={ App }/>
+            <Route path="/pivots" component={Humans}/>
         </Router>
     </Provider>,
     document.getElementById('app')

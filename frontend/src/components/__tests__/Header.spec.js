@@ -17,5 +17,8 @@ describe('Header', () => {
         let nav = wrapper.find('.nav');
         expect(nav.length).toBe(1);
         expect(nav.text()).toContain("Coffee Talks");
+
+        let link = wrapper.find('Link');
+        expect(link.props().to).toContain("pivots");
     })
 });

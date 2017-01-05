@@ -26,32 +26,40 @@ html, body {
   }
 }
 
-.pair-container {
+.pair-list-container{
   display: flex;
   flex-direction: row;
-  margin: 30px;
-  padding: 20px;
-  background: white;
-  border: darkgray;
-  border-radius: 4px;
+  flex-wrap: wrap;
 
-  .pair {
+  .pair-container {
     display: flex;
-    flex-direction: column;
-    padding: 15px;
-    background-color: @teal-color;
-    font-family: @font-family;
+    flex-direction: row;
+    margin: 20px;
+    padding: 20px;
+    background: white;
+    border: black;
     border-radius: 4px;
-    color: white;
-    margin-right: 10px;
+    box-shadow: 3px 3px 3px rgb(234,237,239);
 
-    .pair-name {
-      font-size: 16px;
+    .pair {
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      background-color: @teal-color;
+      font-family: @font-family;
+      border-radius: 4px;
+      color: white;
+      margin-right: 10px;
+
+      .pair-name {
+        font-size: 16px;
+      }
+
+      .pair-email {
+        font-size: 12px;
+      }
+
     }
-
-    .pair-email {
-      font-size: 12px;
-    }
-
   }
 }
+
