@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router";
+import {Navbar} from 'react-materialize';
 
 export class Header extends Component {
 
@@ -9,14 +10,8 @@ export class Header extends Component {
 
     render() {
         return (
-            <div className="nav">
-                <div className="nav-section">
-                    <Link to="/pivots">Pivots</Link>
-                </div>
-                <div className="nav-section">
-                    <label>Coffee Talks</label>
-                </div>
-                <div className="nav-section"></div>
-            </div>)
+        <Navbar brand='Coffee Talks' right>
+            <Link to="/pivots">Pivots</Link>
+        </Navbar>)
     }
 }

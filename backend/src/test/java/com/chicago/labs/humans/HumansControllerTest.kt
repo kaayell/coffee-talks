@@ -42,10 +42,21 @@ class HumansControllerTest {
 
     @Test
     fun `has a GET endpoint`() {
-        doReturn(listOf(Human())).whenever(humansService).getAll()
+        doReturn(listOf(Human(name = "hi", email = "yo"))).whenever(humansService).getAll()
         mockMvc.perform(get("/humans")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isNotEmpty)
+                .andExpect(status().isOk)
+    }
+
+    @Test
+    fun `has a PUT endpoint to deactivate`(){
+        mockMvc.perform(put("/humans/deactivate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{ " +
+                        "\"name\": \"Boop\"," +
+                        "\"email\": \"boop@beep.com\"" +
+                        "}"))
                 .andExpect(status().isOk)
     }
 
@@ -59,9 +70,16 @@ class HumansControllerTest {
 
     @Test
     fun `calls service to get all on GET`() {
-        doReturn(listOf(Human())).whenever(humansService).getAll()
+        doReturn(listOf(Human(name = "wat", email = "yah"))).whenever(humansService).getAll()
         val humans = humansController.get()
-        assertThat(humans).isEqualTo(listOf(Human()))
+        assertThat(humans).isEqualTo(listOf(Human(name = "wat", email = "yah")))
         verify(humansService).getAll()
+    }
+
+    @Test
+    fun `calls service on call to deactivate PUT`() {
+        humansController.deactivate(Human())
+
+        verify(humansService).deactivate(Human())
     }
 }

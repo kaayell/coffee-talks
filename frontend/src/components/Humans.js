@@ -1,32 +1,102 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux'
-import {fetchHumans} from '../actions/actions'
+import {fetchHumans, addHuman} from '../actions/actions'
 import {Header} from "./Header"
+import {Button, Card} from 'react-materialize';
 
 export class Humans extends Component {
 
     constructor(props) {
         super(props);
+
+        this.setName = this.setName.bind(this);
+        this.setEmail = this.setEmail.bind(this);
+        this.handleAddHumanClick = this.handleAddHumanClick.bind(this);
+        this.handleCancelHumanClick = this.handleCancelHumanClick.bind(this);
+        this.handlePlusButtonClick = this.handlePlusButtonClick.bind(this);
+
+        this.state = {
+            addHumanMode: false,
+            name: undefined,
+            email: undefined
+        };
     }
 
     componentWillMount() {
         this.props.fetchHumans();
     }
 
+    setName(event) {
+        this.setState({name: event.target.value});
+    }
+
+    setEmail(event) {
+        this.setState({email: event.target.value});
+    }
+
+    handleAddHumanClick() {
+        if (!this.state.name || !this.state.email) {
+            return;
+        }
+
+        this.props.addHuman(this.state.name, this.state.email);
+        this.setState({addHumanMode: false, name: undefined, email: undefined})
+    }
+
+    handleCancelHumanClick() {
+        this.setState({addHumanMode: false, name: undefined, email: undefined})
+    }
+
+    handlePlusButtonClick() {
+        this.setState({addHumanMode: true});
+    }
+
     renderHumans() {
         return this.props.humans.map(function (human, index) {
             return (
                 <div key={index} className="human-container">
-                    {human.name} {human.email}
+                    <Card className='blue-grey darken-1' textClassName='white-text'>
+                        {human.name} <br/> {human.email}
+                    </Card>
                 </div>
             )
         })
+    }
+
+    renderAddForm() {
+        if (!this.state.addHumanMode) {
+            return <Button floating className="plus-button" waves='light' icon='add'
+                           onClick={this.handlePlusButtonClick}/>
+        }
+
+        return (
+            <div className="add-human-form">
+                <div className="input-field">
+                    <input id="name" type="text" className="validate add-human-name-field"
+                           onChange={this.setName}/>
+                    <label for="name">Name</label>
+                </div>
+                <div className="input-field add-human-email-field">
+                    <input id="email" type="email" className="validate"
+                           onChange={this.setEmail}/>
+                    <label for="email">Email</label>
+                </div>
+                <Button waves='light' className="add-human-button"
+                        onClick={this.handleAddHumanClick}>
+                    Add
+                </Button>
+                <Button waves='light' className="cancel-human-button"
+                        onClick={this.handleCancelHumanClick}>
+                    Cancel
+                </Button>
+            </div>)
     }
 
     render() {
         return (
             <div>
                 <Header />
+                {this.renderAddForm()}
                 <div className="human-list-container">
                     {this.renderHumans()}
                 </div>
@@ -43,4 +113,4 @@ function mapStateToProps(state) {
         humans: state.humans
     }
 }
-export default connect(mapStateToProps, {fetchHumans})(Humans)
+export default connect(mapStateToProps, {fetchHumans, addHuman})(Humans)

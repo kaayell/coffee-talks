@@ -8,9 +8,11 @@ import {Header} from "../Header";
 describe('Humans', () => {
     let wrapper;
     let fetchHumans;
+    let addHuman;
 
     beforeEach(() => {
         fetchHumans = jest.fn();
+        addHuman = jest.fn();
         let humans = [
             {
                 "email": "bob@burger.com",
@@ -24,6 +26,7 @@ describe('Humans', () => {
         wrapper = mount(<Humans
             fetchHumans={fetchHumans}
             humans={humans}
+            addHuman={addHuman}
         />);
     });
 
@@ -40,5 +43,47 @@ describe('Humans', () => {
         expect(list.length).toBe(2);
         expect(list.at(0).text()).toContain("Bob Belcher");
         expect(list.at(1).text()).toContain("Tina Belcher");
-    })
+    });
+
+    it('dispatches adding human action on click of button', () => {
+        let addHumanButton = wrapper.find('.plus-button');
+        addHumanButton.simulate('click');
+        expect(wrapper.state().addHumanMode).toBe(true);
+    });
+
+    describe('add human', () => {
+        beforeEach(() => {
+            wrapper.state().addHumanMode = true;
+            wrapper.update();
+        });
+
+        it('renders when addHumanMode is true', () => {
+            let nameField = wrapper.find('.add-human-name-field');
+            let emailField = wrapper.find('.add-human-email-field');
+
+            expect(nameField).toBeDefined();
+            expect(emailField).toBeDefined();
+        });
+
+        it('cancels addHumanMode', () => {
+            let cancelAddHuman = wrapper.find('.cancel-human-button');
+            cancelAddHuman.simulate('click');
+
+            expect(addHuman).not.toHaveBeenCalled();
+            expect(wrapper.state().addHumanMode).toBe(false);
+        });
+
+        it('dispatches addHuman on click of Add', () => {
+            let nameField = wrapper.find('.add-human-name-field');
+            let emailField = wrapper.find('.add-human-email-field');
+            nameField.simulate('change', {target: {value: "name"}});
+            emailField.simulate('change', {target: {value: "email"}});
+
+            let confirmAddHuman = wrapper.find('.add-human-button');
+            confirmAddHuman.simulate('click');
+
+            expect(addHuman).toHaveBeenCalledWith("name", "email");
+            expect(wrapper.state().addHumanMode).toBe(false);
+        });
+    });
 });

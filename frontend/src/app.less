@@ -1,65 +1,74 @@
 html, body {
   margin: 0;
   height: 100%;
-  background-color: rgb(234,237,239);
+  background-color: rgb(234, 237, 239);
 }
 
 @font-family: 'Source Sans Pro', sans-serif;
-@teal-color: rgb(1,120,110);
+@teal-color: rgb(1, 120, 110);
 
-.nav {
+
+nav {
   background-color: @teal-color;
-  margin: 0;
-  padding: 10px;
-  display: flex;
-  flex-direction:row;
-  color: white;
-
-  .nav-section{
-    flex-grow: 1;
-    text-align: center;
-
-    label {
-      font-family: @font-family;
-      font-size: 30px;
-    }
-  }
+  padding-left: 10px;
 }
 
-.pair-list-container{
+.new-pairs-button {
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.record-pairs-button {
+  margin-top: 10px;
+}
+
+.plus-button {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.add-human-form {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  align-content: center;
+  margin-top: 10px;
 
-  .pair-container {
-    display: flex;
-    flex-direction: row;
-    margin: 20px;
-    padding: 20px;
-    background: white;
-    border: black;
-    border-radius: 4px;
-    box-shadow: 3px 3px 3px rgb(234,237,239);
-
-    .pair {
-      display: flex;
-      flex-direction: column;
-      padding: 15px;
-      background-color: @teal-color;
-      font-family: @font-family;
-      border-radius: 4px;
-      color: white;
-      margin-right: 10px;
-
-      .pair-name {
-        font-size: 16px;
-      }
-
-      .pair-email {
-        font-size: 12px;
-      }
-
-    }
+  .input-field {
+    margin-left: 10px;
+    width: 200px;
+  }
+  .btn {
+    margin-top: 10px;
+    margin-left: 10px;
   }
 }
 
+.human-list-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  margin-left: 10px;
+
+  .human-container {
+    width: 200px;
+    margin-right: 10px;
+  }
+}
+
+.pair-list-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  margin-left: 10px;
+
+  .pair-container {
+    width: 200px;
+    margin-right: 10px;
+
+    .chip {
+      height: auto;
+      line-height: inherit;
+    }
+  }
+}

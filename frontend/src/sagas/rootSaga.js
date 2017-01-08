@@ -43,10 +43,8 @@ export function* watchFetchNewPairs() {
 }
 
 export function* recordPairingList(action) {
-    console.log("hihi");
-    console.log(action);
     try {
-        // yield call(apiPost, `/pair/record/${action.id}`);
+        yield call(apiPost, `/pair/record/${action.id}`);
     } catch (error) {}
 }
 
@@ -54,11 +52,23 @@ export function* watchRecordPairingList() {
     yield takeEvery(actionTypes.RECORD_PAIRING_LIST, recordPairingList)
 }
 
+export function* addHuman(action) {
+    try {
+        yield call(apiPost, '/humans', {name: action.name, email: action.email});
+        yield call(fetchHumans);
+    } catch (error) {}
+}
+
+export function* watchAddHuman() {
+    yield takeEvery(actionTypes.ADD_HUMAN, addHuman)
+}
+
 export default function* rootSaga() {
     yield [
         fork(watchFetchLatestPairingList),
         fork(watchFetchHumans),
         fork(watchFetchNewPairs),
-        fork(watchRecordPairingList)
+        fork(watchRecordPairingList),
+        fork(watchAddHuman)
     ];
 }

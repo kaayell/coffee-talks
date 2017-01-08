@@ -3,8 +3,11 @@ package com.chicago.labs.humans
 import com.chicago.labs.domain.Human
 import com.nhaarman.mockito_kotlin.*
 import org.assertj.core.api.Assertions.assertThat
+import org.bson.types.ObjectId
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
 
 class HumansServiceTest {
 
@@ -27,8 +30,19 @@ class HumansServiceTest {
 
     @Test
     fun `gets all humans`() {
-        doReturn(listOf(Human())).whenever(humanRepository).findAll()
+        doReturn(listOf(Human(email = "", name = ""))).whenever(humanRepository).findAll()
         val humans = humansService.getAll()
-        assertThat(humans).isEqualTo(listOf(Human()))
+        assertThat(humans).isEqualTo(listOf(Human(email = "", name = "")))
+    }
+
+    @Test
+    fun `gets human from repo and deactivates them`() {
+        doReturn(Human(email = "email", name = "", active = true))
+                .whenever(humanRepository).findFirstByEmail("email")
+        humansService.deactivate(Human(email = "email"))
+
+        val argumentCaptor = argumentCaptor<Human>()
+        verify(humanRepository).save(argumentCaptor.capture())
+        assertThat(argumentCaptor.firstValue.active).isEqualTo(false)
     }
 }

@@ -5,7 +5,7 @@ import {call, put} from "redux-saga/effects";
 import {apiGet, apiPost} from "../../api/api";
 import {
     storePairingList,
-    pairingListId,
+    storePairingListId,
     storeHumans,
 } from "../../actions/actions";
 
@@ -62,7 +62,7 @@ describe('rootSaga', () => {
             let iterator = sagas.fetchNewPairs();
             iterator.next();
             let saga = iterator.next({data: {id: "id", pairingList: "list"}});
-            expect(saga.value).toEqual(put(pairingListId("id")));
+            expect(saga.value).toEqual(put(storePairingListId("id")));
             saga = iterator.next();
             expect(saga.value).toEqual(put(storePairingList("list")));
         });
@@ -70,10 +70,17 @@ describe('rootSaga', () => {
 
     describe('recordPairingList', () => {
         it('calls api', () => {
-            let iterator = sagas.recordPairingList("id");
+            let iterator = sagas.recordPairingList({id: "id"});
             let saga = iterator.next();
-            expect(saga.value).toEqual(call(apiPost, '/pair'))
+            expect(saga.value).toEqual(call(apiPost, '/pair/record/id'))
         });
     });
 
+    describe('addHuman', () => {
+        it('calls api', () => {
+            let iterator = sagas.addHuman({name: "sup", email: "email"});
+            let saga = iterator.next();
+            expect(saga.value).toEqual(call(apiPost, '/humans', {name: "sup", email: "email"}))
+        });
+    });
 });

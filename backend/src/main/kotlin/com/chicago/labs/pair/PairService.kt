@@ -1,9 +1,9 @@
 package com.chicago.labs.pair
 
-import com.chicago.labs.domain.Human
 import com.chicago.labs.humans.HumanRepository
 import com.chicago.labs.domain.Pair
 import com.chicago.labs.domain.PairingList
+import com.chicago.labs.domain.Human
 import com.chicago.labs.pair.error.PairingListNotFoundException
 import com.chicago.labs.pair.matching.MatcherService
 import com.chicago.labs.pair.matching.ShuffleService
@@ -31,7 +31,7 @@ open class PairService
         humanSet.forEach {
             if (!alreadyMatched.contains(it)) {
                 val matchForHuman = matcherService.findBestMatch(it.email!!, humans, alreadyMatched)
-                pairs.add(Pair(it, matchForHuman))
+                pairs.add(Pair(first = it, second = matchForHuman))
                 if (matchForHuman != null) {
                     alreadyMatched.add(matchForHuman)
                 }
@@ -41,9 +41,8 @@ open class PairService
         }
 
         val pairingList = PairingList(
-                UUID.randomUUID().toString(),
-                pairs,
-                Date())
+                pairingList = pairs,
+                timestamp = Date())
         pairingListRepository.save(pairingList)
         return pairingList
     }

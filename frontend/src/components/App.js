@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux'
 import {fetchLatestPairingList, fetchNewPairs, recordPairingList} from '../actions/actions'
 import {Header} from "./Header"
+import {Button, Chip, Card} from 'react-materialize';
 
 export class App extends Component {
 
@@ -28,14 +29,16 @@ export class App extends Component {
         return this.props.pairingList.map(function (pair, index) {
             return (
                 <div key={index} className="pair-container">
-                    <div className="pair">
-                        <div className="pair-name">{pair.first.name}</div>
-                        <div className="pair-email">{pair.first.email}</div>
-                    </div>
-                    <div className="pair">
-                        <div className="pair-name">{pair.second ? pair.second.name : ""}</div>
-                        <div className="pair-email">{pair.second ? pair.second.email : ""}</div>
-                    </div>
+                    <Card className='blue-grey darken-1' textClassName='white-text'>
+                        <Chip>
+                            <div className="pair-name">{pair.first.name}</div>
+                            <div className="pair-email">{pair.first.email}</div>
+                        </Chip>
+                        <Chip>
+                            <div className="pair-name">{pair.second ? pair.second.name : ""}</div>
+                            <div className="pair-email">{pair.second ? pair.second.email : ""}</div>
+                        </Chip>
+                    </Card>
                 </div>
             );
         })
@@ -46,8 +49,8 @@ export class App extends Component {
             <div>
                 <Header />
                 <div className="button-container">
-                    <button onClick={this.handleNewPairsClick}>New Pairs</button>
-                    <button onClick={this.handleRecordPairsClick}>Record Pairs</button>
+                    <Button waves='light' className="new-pairs-button" onClick={this.handleNewPairsClick}>New Pairs</Button>
+                    <Button waves='light' className="record-pairs-button" onClick={this.handleRecordPairsClick}>Record Pairs</Button>
                 </div>
                 <div className="pair-list-container">
                     { this.renderPairs() }

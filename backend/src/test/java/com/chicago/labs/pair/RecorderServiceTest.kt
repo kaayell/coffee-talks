@@ -26,7 +26,7 @@ class RecorderServiceTest {
 
     @Test
     fun `saves new pair history`() {
-        recorderService.record(listOf(Pair(Human("bob@burger.com"), Human("tina@burger.com"))))
+        recorderService.record(listOf(Pair(first = Human(email = "bob@burger.com", name = ""), second = Human(email = "tina@burger.com", name = ""))))
 
         val argumentCaptor = argumentCaptor<PairHistory>()
         verify(pairHistoryRepository).save(argumentCaptor.capture())
@@ -37,9 +37,9 @@ class RecorderServiceTest {
 
     @Test
     fun `increases pair count for existing pairs and saves pair date`() {
-        doReturn(PairHistory("12345", "bob@burger.com", "tina@burger.com", 1))
+        doReturn(PairHistory(null, "bob@burger.com", "tina@burger.com", 1))
                 .whenever(pairHistoryRepository).findOneByEmailOneAndEmailTwo("bob@burger.com", "tina@burger.com")
-        recorderService.record(listOf(Pair(Human("bob@burger.com"), Human("tina@burger.com"))))
+        recorderService.record(listOf(Pair(null, Human(email = "bob@burger.com"), Human(email = "tina@burger.com"))))
 
         val argumentCaptor = argumentCaptor<PairHistory>()
         verify(pairHistoryRepository).save(argumentCaptor.capture())
@@ -52,7 +52,7 @@ class RecorderServiceTest {
 
     @Test
     fun `saves null as forever alone`() {
-        recorderService.record(listOf(Pair(Human("bob@burger.com"), null)))
+        recorderService.record(listOf(Pair(null, Human(email = "bob@burger.com"), null)))
 
         val argumentCaptor = argumentCaptor<PairHistory>()
         verify(pairHistoryRepository).save(argumentCaptor.capture())

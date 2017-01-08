@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*
 
 
 @RestController
-@RequestMapping("/humans")
 @CrossOrigin
+@RequestMapping("/humans")
 open class HumansController
 @Autowired constructor(var humansService: HumansService) {
 
@@ -21,6 +21,11 @@ open class HumansController
     @GetMapping
     open fun get(): List<Human> {
         return humansService.getAll()
+    }
+
+    @PutMapping("/deactivate")
+    open fun deactivate(@RequestBody human: Human) {
+        humansService.deactivate(human)
     }
 }
 

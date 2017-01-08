@@ -14,6 +14,12 @@ open class HumansService
 
     open fun getAll(): List<Human> {
         return humanRepository.findAll()
+    }
 
+    open fun deactivate(human: Human) {
+        val savedHuman = humanRepository.findFirstByEmail(human.email!!)
+        savedHuman?.let {
+            humanRepository.save(Human(savedHuman.mongoId, savedHuman.email, savedHuman.name, false))
+        }
     }
 }
