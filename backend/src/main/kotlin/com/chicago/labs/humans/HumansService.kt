@@ -16,10 +16,8 @@ open class HumansService
         return humanRepository.findAll()
     }
 
-    open fun deactivate(human: Human) {
+    open fun delete(human: Human) {
         val savedHuman = humanRepository.findFirstByEmail(human.email!!)
-        savedHuman?.let {
-            humanRepository.save(Human(savedHuman.mongoId, savedHuman.email, savedHuman.name, false))
-        }
+        humanRepository.delete(savedHuman)
     }
 }

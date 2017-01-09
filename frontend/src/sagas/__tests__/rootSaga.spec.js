@@ -2,7 +2,7 @@ jest.unmock('../rootSaga');
 
 import * as sagas from "../rootSaga";
 import {call, put} from "redux-saga/effects";
-import {apiGet, apiPost} from "../../api/api";
+import {apiGet, apiPost, apiDelete} from "../../api/api";
 import {
     storePairingList,
     storePairingListId,
@@ -31,8 +31,10 @@ describe('rootSaga', () => {
         it('dispatches pairing list', () => {
             let iterator = sagas.fetchLatestPairingList();
             iterator.next();
-            let saga = iterator.next({data: {pairingList: "hi"}});
-            expect(saga.value).toEqual(put(storePairingList("hi")))
+            let saga = iterator.next({data: {pairingList: "hi", internalId: "id"}});
+            expect(saga.value).toEqual(put(storePairingListId("id")));
+            saga = iterator.next();
+            expect(saga.value).toEqual(put(storePairingList("hi")));
         });
     });
 
@@ -61,7 +63,7 @@ describe('rootSaga', () => {
         it('dispatches id and list', () => {
             let iterator = sagas.fetchNewPairs();
             iterator.next();
-            let saga = iterator.next({data: {id: "id", pairingList: "list"}});
+            let saga = iterator.next({data: {internalId: "id", pairingList: "list"}});
             expect(saga.value).toEqual(put(storePairingListId("id")));
             saga = iterator.next();
             expect(saga.value).toEqual(put(storePairingList("list")));
@@ -81,6 +83,14 @@ describe('rootSaga', () => {
             let iterator = sagas.addHuman({name: "sup", email: "email"});
             let saga = iterator.next();
             expect(saga.value).toEqual(call(apiPost, '/humans', {name: "sup", email: "email"}))
+        });
+    });
+
+    describe('deleteHuman', () => {
+        it('calls api', () => {
+            let iterator = sagas.deleteHuman({human: {}});
+            let saga = iterator.next();
+            expect(saga.value).toEqual(call(apiDelete, '/humans', {}))
         });
     });
 });

@@ -47,18 +47,28 @@ nav {
 .human-list-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   margin-top: 10px;
   margin-left: 10px;
 
   .human-container {
     width: 200px;
     margin-right: 10px;
+
+    .teal {
+      background-color: #26a69a;
+    }
+
+    .card {
+      border-radius: 4px;
+    }
   }
 }
 
 .pair-list-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   margin-top: 10px;
   margin-left: 10px;
 
@@ -66,9 +76,31 @@ nav {
     width: 200px;
     margin-right: 10px;
 
+    .card {
+      border-radius: 4px;
+      background-color: rgb(234,237,239);
+      border: 1px solid darkgray;
+      box-shadow: none;
+    }
+
+    .chip:first-child{
+      margin-bottom: 10px;
+    }
+
     .chip {
       height: auto;
       line-height: inherit;
+      background-color: #00897b;
+      color: white;
+      padding: 5px 20px;
+
+      .pair-name {
+        font-size: 15px;
+      }
+
+      .pair-email {
+        font-size: 13px;
+      }
     }
   }
 }

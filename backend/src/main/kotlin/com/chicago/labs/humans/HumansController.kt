@@ -23,9 +23,9 @@ open class HumansController
         return humansService.getAll()
     }
 
-    @PutMapping("/deactivate")
-    open fun deactivate(@RequestBody human: Human) {
-        humansService.deactivate(human)
+    @DeleteMapping
+    open fun delete(@RequestBody human: Human) {
+        humansService.delete(human)
     }
 }
 

@@ -36,13 +36,11 @@ class HumansServiceTest {
     }
 
     @Test
-    fun `gets human from repo and deactivates them`() {
-        doReturn(Human(email = "email", name = "", active = true))
+    fun `gets human from repo and deletes them`() {
+        doReturn(Human(email = "email", name = ""))
                 .whenever(humanRepository).findFirstByEmail("email")
-        humansService.deactivate(Human(email = "email"))
+        humansService.delete(Human(email = "email"))
 
-        val argumentCaptor = argumentCaptor<Human>()
-        verify(humanRepository).save(argumentCaptor.capture())
-        assertThat(argumentCaptor.firstValue.active).isEqualTo(false)
+        verify(humanRepository).delete(Human(email = "email", name = ""))
     }
 }

@@ -4,6 +4,7 @@ import React from 'react';
 import {shallow, mount, render} from 'enzyme';
 import {App} from "../App"
 import {Header} from "../Header";
+jest.mock('react-materialize');
 
 describe('App', () => {
     let wrapper;
@@ -37,7 +38,7 @@ describe('App', () => {
                 }
             },
         ];
-        wrapper = mount(<App
+        wrapper = shallow(<App
             fetchLatestPairingList={fetchPairingList}
             fetchNewPairs={fetchNewPairs}
             pairingList={pairingList}
@@ -55,13 +56,13 @@ describe('App', () => {
     });
 
     it('renders list', () => {
-        let list = wrapper.find('.pair-container');
-        expect(list.length).toBe(2);
+        let list = wrapper.find('.pair-container .pair-name');
+        expect(list.length).toBe(4);
         expect(list.at(0).text()).toContain("Gene Belcher");
-        expect(list.at(0).text()).toContain("Tina Belcher");
+        expect(list.at(1).text()).toContain("Tina Belcher");
 
-        expect(list.at(1).text()).toContain("Bob Belcher");
-        expect(list.at(1).text()).toContain("Linda Belcher")
+        expect(list.at(2).text()).toContain("Bob Belcher");
+        expect(list.at(3).text()).toContain("Linda Belcher")
     });
 
     it('dispatches new pairs action on click of new pairs button', () => {

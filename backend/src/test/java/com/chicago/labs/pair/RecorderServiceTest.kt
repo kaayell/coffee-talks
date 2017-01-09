@@ -37,7 +37,7 @@ class RecorderServiceTest {
 
     @Test
     fun `increases pair count for existing pairs and saves pair date`() {
-        doReturn(PairHistory(null, "bob@burger.com", "tina@burger.com", 1))
+        doReturn(PairHistory(emailOne = "bob@burger.com", emailTwo = "tina@burger.com", timesPaired = 1))
                 .whenever(pairHistoryRepository).findOneByEmailOneAndEmailTwo("bob@burger.com", "tina@burger.com")
         recorderService.record(listOf(Pair(null, Human(email = "bob@burger.com"), Human(email = "tina@burger.com"))))
 

@@ -55,7 +55,7 @@ export class Humans extends Component {
         return this.props.humans.map(function (human, index) {
             return (
                 <div key={index} className="human-container">
-                    <Card className='blue-grey darken-1' textClassName='white-text'>
+                    <Card className='human teal darken-1' textClassName='white-text'>
                         {human.name} <br/> {human.email}
                     </Card>
                 </div>
@@ -74,12 +74,12 @@ export class Humans extends Component {
                 <div className="input-field">
                     <input id="name" type="text" className="validate add-human-name-field"
                            onChange={this.setName}/>
-                    <label for="name">Name</label>
+                    <label htmlFor="name">Name</label>
                 </div>
                 <div className="input-field add-human-email-field">
                     <input id="email" type="email" className="validate"
                            onChange={this.setEmail}/>
-                    <label for="email">Email</label>
+                    <label htmlFor="email">Email</label>
                 </div>
                 <Button waves='light' className="add-human-button"
                         onClick={this.handleAddHumanClick}>

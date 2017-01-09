@@ -30,7 +30,7 @@ class MatcherServiceTest {
 
     @Test
     fun `matches if pair has no history`() {
-        doReturn(Human(email = "tina@burger.com", name = "")).whenever(humanRepository).findOne("tina@burger.com")
+        doReturn(Human(email = "tina@burger.com", name = "")).whenever(humanRepository).findFirstByEmail("tina@burger.com")
         doReturn(null).whenever(pairHistoryRepository).findOneByEmailOneAndEmailTwo(any(), any())
         val match = matcherService.findBestMatch("bob@burger.com", humansList, emptySet())
         assertThat(match).isEqualTo(Human(email = "tina@burger.com", name = ""))
@@ -39,7 +39,7 @@ class MatcherServiceTest {
 
     @Test
     fun `ignores already humansAlreadyMatched`() {
-        doReturn(Human(email = "linda@burger.com", name = "")).whenever(humanRepository).findOne("linda@burger.com")
+        doReturn(Human(email = "linda@burger.com", name = "")).whenever(humanRepository).findFirstByEmail("linda@burger.com")
         doReturn(null).whenever(pairHistoryRepository).findOneByEmailOneAndEmailTwo(any(), any())
         val match = matcherService.findBestMatch("bob@burger.com", humansList, setOf(Human(email = "tina@burger.com", name = "")))
         assertThat(match).isEqualTo(Human(email = "linda@burger.com", name = ""))
@@ -48,13 +48,13 @@ class MatcherServiceTest {
 
     @Test
     fun `matches based off lowest pair times`() {
-        doReturn(Human(email = "louise@burger.com", name = "")).whenever(humanRepository).findOne("louise@burger.com")
+        doReturn(Human(email = "louise@burger.com", name = "")).whenever(humanRepository).findFirstByEmail("louise@burger.com")
 
-        doReturn(PairHistory(null, "bob@burger.com", "tina@burger.com", 2))
+        doReturn(PairHistory(emailOne = "bob@burger.com", emailTwo =  "tina@burger.com", timesPaired = 2))
                 .whenever(pairHistoryRepository).findOneByEmailOneAndEmailTwo("bob@burger.com", "tina@burger.com")
-        doReturn(PairHistory(null, "bob@burger.com", "linda@burger.com", 3))
+        doReturn(PairHistory(emailOne = "bob@burger.com", emailTwo = "linda@burger.com", timesPaired = 3))
                 .whenever(pairHistoryRepository).findOneByEmailOneAndEmailTwo("bob@burger.com", "linda@burger.com")
-        doReturn(PairHistory(null, "bob@burger.com", "louise@burger.com", 1))
+        doReturn(PairHistory(emailOne = "bob@burger.com", emailTwo = "louise@burger.com", timesPaired = 1))
                 .whenever(pairHistoryRepository).findOneByEmailOneAndEmailTwo("bob@burger.com", "louise@burger.com")
 
         val match = matcherService.findBestMatch("bob@burger.com", humansList, emptySet())

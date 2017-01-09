@@ -29,15 +29,18 @@ export class App extends Component {
         return this.props.pairingList.map(function (pair, index) {
             return (
                 <div key={index} className="pair-container">
-                    <Card className='blue-grey darken-1' textClassName='white-text'>
+                    <Card>
                         <Chip>
                             <div className="pair-name">{pair.first.name}</div>
                             <div className="pair-email">{pair.first.email}</div>
                         </Chip>
+                        {pair.second &&
                         <Chip>
                             <div className="pair-name">{pair.second ? pair.second.name : ""}</div>
                             <div className="pair-email">{pair.second ? pair.second.email : ""}</div>
                         </Chip>
+                        }
+
                     </Card>
                 </div>
             );
@@ -49,8 +52,10 @@ export class App extends Component {
             <div>
                 <Header />
                 <div className="button-container">
-                    <Button waves='light' className="new-pairs-button" onClick={this.handleNewPairsClick}>New Pairs</Button>
-                    <Button waves='light' className="record-pairs-button" onClick={this.handleRecordPairsClick}>Record Pairs</Button>
+                    <Button waves='light' className="new-pairs-button" onClick={this.handleNewPairsClick}>New
+                        Pairs</Button>
+                    <Button waves='light' className="record-pairs-button" onClick={this.handleRecordPairsClick}>Record
+                        Pairs</Button>
                 </div>
                 <div className="pair-list-container">
                     { this.renderPairs() }

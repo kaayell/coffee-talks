@@ -41,6 +41,7 @@ open class PairService
         }
 
         val pairingList = PairingList(
+                internalId = UUID.randomUUID().toString(),
                 pairingList = pairs,
                 timestamp = Date())
         pairingListRepository.save(pairingList)
@@ -48,7 +49,7 @@ open class PairService
     }
 
     open fun record(pairListId: String) {
-        val pairingList = pairingListRepository.findOne(pairListId) ?: throw PairingListNotFoundException()
+        val pairingList = pairingListRepository.findFirstByInternalId(pairListId) ?: throw PairingListNotFoundException()
         recorderService.record(pairingList.pairingList!!)
     }
 
