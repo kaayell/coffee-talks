@@ -1,8 +1,8 @@
 package com.chicago.labs.pair.matching
 
 import com.chicago.labs.domain.Human
-import com.chicago.labs.humans.HumanRepository
 import com.chicago.labs.domain.PairHistory
+import com.chicago.labs.humans.HumanRepository
 import com.chicago.labs.pair.PairHistoryRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -22,13 +22,10 @@ open class MatcherService
                     human ->
                     val pairHistory = pairHistoryRepository.findOneByEmailOneAndEmailTwo(email, human.email!!)
                     pairHistory ?: PairHistory(
-                            internalId = UUID.randomUUID().toString(),
-                            emailOne = email,
-                            emailTwo = human.email,
-                            timesPaired = 0,
-                            lastPairDate = Date())
+                            UUID.randomUUID().toString(), email, human.email,
+                            0, Date())
                 }
-                .minBy { pairHistory -> pairHistory.timesPaired ?: 0}
+                .minBy { pairHistory -> pairHistory.timesPaired ?: 0 }
 
         val humanEmailThatIsNotMe = if (lowestPairHistory?.emailOne.equals(email)) {
             lowestPairHistory?.emailTwo
@@ -36,7 +33,7 @@ open class MatcherService
             lowestPairHistory?.emailOne
         }
 
-        if(humanEmailThatIsNotMe != null){
+        if (humanEmailThatIsNotMe != null) {
             return humanRepository.findFirstByEmail(humanEmailThatIsNotMe)
         }
 

@@ -18,14 +18,14 @@ open class RecorderService
                 pair.second!!.email
             }
             val pairHistory = pairHistoryRepository.findOneByEmailOneAndEmailTwo(pair.first?.email!!, emailTwo!!)
-            if(pairHistory == null) {
+            if (pairHistory == null) {
                 pairHistoryRepository.save(PairHistory(
-                        internalId = UUID.randomUUID().toString(),
-                        emailOne = pair.first?.email!!,
-                        emailTwo = emailTwo,
-                        timesPaired = 0,
-                        lastPairDate = Date()
-                        ))
+                        UUID.randomUUID().toString(),
+                        pair.first?.email!!,
+                        emailTwo,
+                        0,
+                        Date()
+                ))
             } else {
                 pairHistory.timesPaired = pairHistory.timesPaired!! + 1
                 pairHistory.lastPairDate = Date()

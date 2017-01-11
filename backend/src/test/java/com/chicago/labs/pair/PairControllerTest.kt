@@ -35,9 +35,9 @@ class PairControllerTest {
 
     @Test
     fun `has a pair GET endpoint`() {
-        doReturn(PairingList(null, pairingList = listOf(
-                Pair(first = Human(email = "", name = ""), second = Human(email = "", name = ""))),
-                timestamp = Date())).whenever(pairService).match()
+        doReturn(PairingList(null, listOf(
+                Pair(Human("", ""), Human("", ""))),
+                Date(), false)).whenever(pairService).match()
         mockMvc.perform(get("/pair")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isNotEmpty)
@@ -46,9 +46,9 @@ class PairControllerTest {
 
     @Test
     fun `calls service to get all on GET`() {
-        val expectedPairingList = PairingList(pairingList = listOf(
-                Pair(first = Human(email = "", name = ""), second = Human(email = "",name = ""))),
-                timestamp = Date())
+        val expectedPairingList = PairingList(null, listOf(
+                Pair(Human("", ""), Human("",""))),
+                Date(), false)
         doReturn(expectedPairingList).whenever(pairService).match()
         val humans = pairController.get()
         assertThat(humans).isEqualTo(expectedPairingList)
@@ -66,9 +66,9 @@ class PairControllerTest {
 
     @Test
     fun `has a latest pair GET endpoint`() {
-        doReturn(PairingList(pairingList = listOf(
-                Pair(first = Human(email = "", name = ""), second = Human(name = "", email = ""))),
-                timestamp = Date()))
+        doReturn(PairingList(null, listOf(
+                Pair(Human("", ""), Human("", ""))),
+                Date(), false))
                 .whenever(pairService).latest()
         mockMvc.perform(get("/pair/latest")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -80,9 +80,9 @@ class PairControllerTest {
 
     @Test
     fun `calls service to get latest pairing list`() {
-        val expectedPairingList = PairingList(pairingList = listOf(
-                Pair(first = Human(name = "", email = ""), second = Human(name = "", email = ""))),
-                timestamp = Date())
+        val expectedPairingList = PairingList(null, listOf(
+                Pair(Human("", ""), Human("", ""))),
+                Date(), false)
         doReturn(expectedPairingList).whenever(pairService).latest()
         val humans = pairController.getLatest()
         assertThat(humans).isEqualTo(expectedPairingList)

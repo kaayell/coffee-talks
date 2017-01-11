@@ -12,6 +12,7 @@ import org.junit.Test
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.mockito.Mockito.verify
+import java.util.*
 
 class RecorderServiceTest {
 
@@ -26,7 +27,7 @@ class RecorderServiceTest {
 
     @Test
     fun `saves new pair history`() {
-        recorderService.record(listOf(Pair(first = Human(email = "bob@burger.com", name = ""), second = Human(email = "tina@burger.com", name = ""))))
+        recorderService.record(listOf(Pair(Human("bob@burger.com", ""), Human("tina@burger.com", ""))))
 
         val argumentCaptor = argumentCaptor<PairHistory>()
         verify(pairHistoryRepository).save(argumentCaptor.capture())
@@ -37,9 +38,9 @@ class RecorderServiceTest {
 
     @Test
     fun `increases pair count for existing pairs and saves pair date`() {
-        doReturn(PairHistory(emailOne = "bob@burger.com", emailTwo = "tina@burger.com", timesPaired = 1))
+        doReturn(PairHistory(null, "bob@burger.com", "tina@burger.com", 1, Date()))
                 .whenever(pairHistoryRepository).findOneByEmailOneAndEmailTwo("bob@burger.com", "tina@burger.com")
-        recorderService.record(listOf(Pair(null, Human(email = "bob@burger.com"), Human(email = "tina@burger.com"))))
+        recorderService.record(listOf(Pair(Human("bob@burger.com", ""), Human("tina@burger.com", ""))))
 
         val argumentCaptor = argumentCaptor<PairHistory>()
         verify(pairHistoryRepository).save(argumentCaptor.capture())
@@ -52,7 +53,7 @@ class RecorderServiceTest {
 
     @Test
     fun `saves null as forever alone`() {
-        recorderService.record(listOf(Pair(null, Human(email = "bob@burger.com"), null)))
+        recorderService.record(listOf(Pair(Human("bob@burger.com", ""), null)))
 
         val argumentCaptor = argumentCaptor<PairHistory>()
         verify(pairHistoryRepository).save(argumentCaptor.capture())

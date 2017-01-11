@@ -22,7 +22,7 @@ class HumansServiceTest {
 
     @Test
     fun `saves human to repo`() {
-        val human = Human(email = "yo@hi.com", name = "hay")
+        val human = Human("yo@hi.com", "hay")
         humansService.create(human)
 
         verify(humanRepository).save(human)
@@ -30,17 +30,17 @@ class HumansServiceTest {
 
     @Test
     fun `gets all humans`() {
-        doReturn(listOf(Human(email = "", name = ""))).whenever(humanRepository).findAll()
+        doReturn(listOf(Human("", ""))).whenever(humanRepository).findAll()
         val humans = humansService.getAll()
-        assertThat(humans).isEqualTo(listOf(Human(email = "", name = "")))
+        assertThat(humans).isEqualTo(listOf(Human("", "")))
     }
 
     @Test
     fun `gets human from repo and deletes them`() {
-        doReturn(Human(email = "email", name = ""))
+        doReturn(Human("email", ""))
                 .whenever(humanRepository).findFirstByEmail("email")
-        humansService.delete(Human(email = "email"))
+        humansService.delete(Human("email", ""))
 
-        verify(humanRepository).delete(Human(email = "email", name = ""))
+        verify(humanRepository).delete(Human("email", ""))
     }
 }

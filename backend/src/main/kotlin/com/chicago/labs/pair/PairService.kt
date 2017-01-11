@@ -14,11 +14,11 @@ import java.util.*
 
 @Service
 open class PairService
-@Autowired constructor(var humanRepository: HumanRepository,
-                       var pairingListRepository: PairingListRepository,
-                       var shuffleService: ShuffleService,
-                       var matcherService: MatcherService,
-                       var recorderService: RecorderService) {
+@Autowired constructor(val humanRepository: HumanRepository,
+                       val pairingListRepository: PairingListRepository,
+                       val shuffleService: ShuffleService,
+                       val matcherService: MatcherService,
+                       val recorderService: RecorderService) {
 
     open fun match(): PairingList {
         val humans = shuffleService.shuffle(humanRepository.findAll())
@@ -31,7 +31,7 @@ open class PairService
         humanSet.forEach {
             if (!alreadyMatched.contains(it)) {
                 val matchForHuman = matcherService.findBestMatch(it.email!!, humans, alreadyMatched)
-                pairs.add(Pair(first = it, second = matchForHuman))
+                pairs.add(Pair(it, matchForHuman))
                 if (matchForHuman != null) {
                     alreadyMatched.add(matchForHuman)
                 }
@@ -40,21 +40,22 @@ open class PairService
             alreadyMatched.add(it)
         }
 
-        val pairingList = PairingList(
-                internalId = UUID.randomUUID().toString(),
-                pairingList = pairs,
-                timestamp = Date())
+        val pairingList = PairingList(UUID.randomUUID().toString(), pairs, Date(), false)
         pairingListRepository.save(pairingList)
         return pairingList
     }
 
     open fun record(pairListId: String) {
         val pairingList = pairingListRepository.findFirstByInternalId(pairListId) ?: throw PairingListNotFoundException()
+
+        pairingList.recorded = true
+        pairingListRepository.save(pairingList)
+
         recorderService.record(pairingList.pairingList!!)
     }
 
     open fun latest() : PairingList {
-        return pairingListRepository.findFirstByOrderByTimestampDesc()
+        return pairingListRepository.findFirstByRecordedTrueOrderByTimestampDesc()
     }
 }
 

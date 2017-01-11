@@ -35,33 +35,33 @@ class PairServiceTest {
                 shuffleService, matcherService, recorderService)
 
         doReturn(listOf(
-                Human(email = "bob@burger.com", name = "bob"),
-                Human(email = "tina@burger.com", name = "tina"),
-                Human(email = "louise@burger.com", name = "louise"),
-                Human(email = "gene@burger.com", name = "gene")))
+                Human("bob@burger.com", "bob"),
+                Human("tina@burger.com", "tina"),
+                Human("louise@burger.com", "louise"),
+                Human("gene@burger.com", "gene")))
                 .whenever(humanRepository).findAll()
 
         doReturn(listOf(
-                Human(email = "louise@burger.com", name = "louise"),
-                Human(email = "tina@burger.com", name = "tina"),
-                Human(email = "bob@burger.com", name = "bob"),
-                Human(email = "gene@burger.com", name = "gene")))
+                Human("louise@burger.com", "louise"),
+                Human("tina@burger.com", "tina"),
+                Human("bob@burger.com", "bob"),
+                Human("gene@burger.com", "gene")))
                 .whenever(shuffleService).shuffle(any())
     }
 
     @Test
     fun `latest returns most recent recorded pair list`() {
-        val expectedPairingList = PairingList(pairingList = listOf(Pair(first = Human(email = "", name = ""), second = Human(email = "", name = ""))), timestamp = Date())
-        doReturn(expectedPairingList).whenever(pairingListRepository).findFirstByOrderByTimestampDesc()
+        val expectedPairingList = PairingList(null, listOf(Pair(Human("", ""), Human("", ""))), Date(), false)
+        doReturn(expectedPairingList).whenever(pairingListRepository).findFirstByRecordedTrueOrderByTimestampDesc()
         val actualPairingList = pairService.latest()
         assertThat(actualPairingList).isEqualTo(expectedPairingList)
-        verify(pairingListRepository).findFirstByOrderByTimestampDesc()
+        verify(pairingListRepository).findFirstByRecordedTrueOrderByTimestampDesc()
     }
 
     @Test
     fun `match gets list of humans and returns pairs list`() {
-        doReturn(Human(email = "bob@burger.com", name= "bob")).whenever(matcherService).findBestMatch(eq("louise@burger.com"), any(), any())
-        doReturn(Human(email = "gene@burger.com", name = "gene")).whenever(matcherService).findBestMatch(eq("tina@burger.com"), any(), any())
+        doReturn(Human("bob@burger.com", "bob")).whenever(matcherService).findBestMatch(eq("louise@burger.com"), any(), any())
+        doReturn(Human("gene@burger.com", "gene")).whenever(matcherService).findBestMatch(eq("tina@burger.com"), any(), any())
 
         val matches = pairService.match()
         assertThat(matches.pairingList).hasSize(2)
@@ -74,28 +74,30 @@ class PairServiceTest {
 
     @Test
     fun `match calls matcher service to make pairs, narrows list along the way`() {
-        doReturn(Human(email = "bob@burger.com", name="bob")).whenever(matcherService).findBestMatch(eq("louise@burger.com"), any(), any())
-        doReturn(Human(email = "gene@burger.com", name = "gene")).whenever(matcherService).findBestMatch(eq("tina@burger.com"), any(), any())
+        doReturn(Human("bob@burger.com", "bob")).whenever(matcherService).findBestMatch(eq("louise@burger.com"), any(), any())
+        doReturn(Human("gene@burger.com", "gene")).whenever(matcherService).findBestMatch(eq("tina@burger.com"), any(), any())
         val matches = pairService.match()
-        assertThat(matches.pairingList!![0].first).isEqualTo(Human(email = "louise@burger.com", name = "louise"))
-        assertThat(matches.pairingList!![0].second).isEqualTo(Human(email = "bob@burger.com", name = "bob"))
+        assertThat(matches.pairingList!![0].first).isEqualTo(Human("louise@burger.com", "louise"))
+        assertThat(matches.pairingList!![0].second).isEqualTo(Human("bob@burger.com", "bob"))
 
-        assertThat(matches.pairingList!![1].first).isEqualTo(Human(email = "tina@burger.com", name = "tina"))
-        assertThat(matches.pairingList!![1].second).isEqualTo(Human(email = "gene@burger.com", name = "gene"))
+        assertThat(matches.pairingList!![1].first).isEqualTo(Human("tina@burger.com", "tina"))
+        assertThat(matches.pairingList!![1].second).isEqualTo(Human("gene@burger.com", "gene"))
     }
 
     @Test
     fun `record gets pairing list and calls record service`() {
-        doReturn(PairingList(pairingList =
-                listOf(Pair(
-                        first = Human(email = "email", name= "name"),
-                        second = Human(email = "email", name = "name"))),
-                timestamp = Date())).whenever(pairingListRepository).findFirstByInternalId("12345")
+        doReturn(PairingList(null, listOf(Pair(
+                        Human("email", "name"),
+                        Human("email", "name"))),
+                Date(), false)).whenever(pairingListRepository).findFirstByInternalId("12345")
         pairService.record("12345")
 
-        verify(recorderService).record(listOf(Pair(
-                first = Human(email = "email", name= "name"),
-                second = Human(email = "email", name = "name"))))
+        val argumentCaptor = argumentCaptor<PairingList>()
+
+        verify(pairingListRepository).save(argumentCaptor.capture())
+        assertThat(argumentCaptor.firstValue.recorded).isTrue()
+
+        verify(recorderService).record(listOf(Pair(Human("email", "name"), Human("email", "name"))))
     }
 
     @Test(expected = PairingListNotFoundException::class)

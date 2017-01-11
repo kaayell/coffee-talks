@@ -42,7 +42,7 @@ class HumansControllerTest {
 
     @Test
     fun `has a GET endpoint`() {
-        doReturn(listOf(Human(name = "hi", email = "yo"))).whenever(humansService).getAll()
+        doReturn(listOf(Human("hi", "yo"))).whenever(humansService).getAll()
         mockMvc.perform(get("/humans")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isNotEmpty)
@@ -62,7 +62,7 @@ class HumansControllerTest {
 
     @Test
     fun `calls service to create on POST`() {
-        val human = Human(name = "Bobs Burgers", email = "bob@burgers.com")
+        val human = Human("Bobs Burgers", "bob@burgers.com")
         humansController.post(human)
 
         verify(humansService).create(human)
@@ -70,16 +70,16 @@ class HumansControllerTest {
 
     @Test
     fun `calls service to get all on GET`() {
-        doReturn(listOf(Human(name = "wat", email = "yah"))).whenever(humansService).getAll()
+        doReturn(listOf(Human("wat", "yah"))).whenever(humansService).getAll()
         val humans = humansController.get()
-        assertThat(humans).isEqualTo(listOf(Human(name = "wat", email = "yah")))
+        assertThat(humans).isEqualTo(listOf(Human("wat", "yah")))
         verify(humansService).getAll()
     }
 
     @Test
     fun `calls service on DELETE`() {
-        humansController.delete(Human(null, "", ""))
+        humansController.delete(Human("", ""))
 
-        verify(humansService).delete(Human(null, "", ""))
+        verify(humansService).delete(Human("", ""))
     }
 }
