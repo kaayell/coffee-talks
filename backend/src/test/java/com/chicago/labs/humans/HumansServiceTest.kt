@@ -37,10 +37,8 @@ class HumansServiceTest {
 
     @Test
     fun `gets human from repo and deletes them`() {
-        doReturn(Human("email", ""))
-                .whenever(humanRepository).findFirstByEmail("email")
-        humansService.delete(Human("email", ""))
+        humansService.remove(Human("email", ""))
 
-        verify(humanRepository).delete(Human("email", ""))
+        verify(humanRepository).deleteHumanByEmail("email")
     }
 }

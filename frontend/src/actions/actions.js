@@ -6,7 +6,8 @@ import {
     STORE_HUMANS,
     FETCH_NEW_PAIRS,
     RECORD_PAIRING_LIST,
-    ADD_HUMAN
+    ADD_HUMAN,
+    DELETE_HUMAN
 } from "./types";
 
 export function fetchLatestPairingList() {
@@ -60,5 +61,12 @@ export function addHuman(name, email) {
         type: ADD_HUMAN,
         name,
         email
+    }
+}
+
+export function deleteHuman(human) {
+    return {
+        type: DELETE_HUMAN,
+        human
     }
 }

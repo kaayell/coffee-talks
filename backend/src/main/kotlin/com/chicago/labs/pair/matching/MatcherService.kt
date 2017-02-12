@@ -20,7 +20,8 @@ open class MatcherService
                 .filter { !humansAlreadyMatched.contains(it) }
                 .map {
                     human ->
-                    val pairHistory = pairHistoryRepository.findOneByEmailOneAndEmailTwo(email, human.email!!)
+                    val pairHistory = pairHistoryRepository.findOneByEmailOneAndEmailTwo(email, human.email!!) ?:
+                            pairHistoryRepository.findOneByEmailOneAndEmailTwo(human.email!!, email)
                     pairHistory ?: PairHistory(
                             UUID.randomUUID().toString(), email, human.email,
                             0, Date())

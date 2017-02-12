@@ -52,4 +52,10 @@ describe('actions', () => {
         );
     });
 
+    it('deleteHuman', () => {
+        expect(actions.deleteHuman({name: "hi"})).toEqual(
+            {type: types.DELETE_HUMAN, human: {name: "hi"}}
+        );
+    });
+
 });

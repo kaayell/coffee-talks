@@ -50,8 +50,8 @@ class HumansControllerTest {
     }
 
     @Test
-    fun `has a DELETE endpoint to deactivate`(){
-        mockMvc.perform(delete("/humans")
+    fun `has a PUT endpoint to deactivate`(){
+        mockMvc.perform(put("/humans/remove")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ " +
                         "\"name\": \"Boop\"," +
@@ -77,9 +77,9 @@ class HumansControllerTest {
     }
 
     @Test
-    fun `calls service on DELETE`() {
-        humansController.delete(Human("", ""))
+    fun `calls service on PUT`() {
+        humansController.remove(Human("", ""))
 
-        verify(humansService).delete(Human("", ""))
+        verify(humansService).remove(Human("", ""))
     }
 }

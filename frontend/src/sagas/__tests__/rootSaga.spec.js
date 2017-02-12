@@ -2,7 +2,7 @@ jest.unmock('../rootSaga');
 
 import * as sagas from "../rootSaga";
 import {call, put} from "redux-saga/effects";
-import {apiGet, apiPost, apiDelete} from "../../api/api";
+import {apiGet, apiPost, apiPut} from "../../api/api";
 import {
     storePairingList,
     storePairingListId,
@@ -87,10 +87,12 @@ describe('rootSaga', () => {
     });
 
     describe('deleteHuman', () => {
-        it('calls api', () => {
+        it('calls api and refreshes humans', () => {
             let iterator = sagas.deleteHuman({human: {}});
             let saga = iterator.next();
-            expect(saga.value).toEqual(call(apiDelete, '/humans', {}))
+            expect(saga.value).toEqual(call(apiPut, '/humans/remove', {}));
+            saga = iterator.next();
+            expect(saga.value).toEqual(call(sagas.fetchHumans));
         });
     });
 });

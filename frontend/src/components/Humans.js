@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux'
-import {fetchHumans, addHuman} from '../actions/actions'
+import {fetchHumans, addHuman, deleteHuman} from '../actions/actions'
 import {Header} from "./Header"
 import {Button, Card} from 'react-materialize';
 
@@ -51,16 +51,24 @@ export class Humans extends Component {
         this.setState({addHumanMode: true});
     }
 
+    handleDeleteHumanClick(human) {
+        this.props.deleteHuman(human);
+    }
+
     renderHumans() {
         return this.props.humans.map(function (human, index) {
             return (
                 <div key={index} className="human-container">
-                    <Card className='human teal darken-1' textClassName='white-text'>
+                    <Card className='human teal darken-1'
+                          textClassName='white-text'
+                          actions={[<a key={index} className="delete-human"
+                                         onClick={this.handleDeleteHumanClick.bind(this, human)}>Remove</a>]}>
                         {human.name} <br/> {human.email}
                     </Card>
                 </div>
             )
-        })
+        }, this)
+
     }
 
     renderAddForm() {
@@ -113,4 +121,8 @@ function mapStateToProps(state) {
         humans: state.humans
     }
 }
-export default connect(mapStateToProps, {fetchHumans, addHuman})(Humans)
+export default connect(mapStateToProps, {
+    fetchHumans,
+    addHuman,
+    deleteHuman
+})(Humans)

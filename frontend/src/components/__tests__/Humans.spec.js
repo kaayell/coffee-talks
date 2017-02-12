@@ -10,10 +10,12 @@ describe('Humans', () => {
     let wrapper;
     let fetchHumans;
     let addHuman;
+    let deleteHuman;
 
     beforeEach(() => {
         fetchHumans = jest.fn();
         addHuman = jest.fn();
+        deleteHuman = jest.fn();
         let humans = [
             {
                 "email": "bob@burger.com",
@@ -28,6 +30,7 @@ describe('Humans', () => {
             fetchHumans={fetchHumans}
             humans={humans}
             addHuman={addHuman}
+            deleteHuman={deleteHuman}
         />);
     });
 
@@ -40,10 +43,10 @@ describe('Humans', () => {
     });
 
     it('renders humans', () => {
-        let list = wrapper.find('.human-list-container .human-container');
+        let list = wrapper.find('Card');
         expect(list.length).toBe(2);
-        // expect(list.at(0).text()).toContain("Bob Belcher");
-        // expect(list.at(1).text()).toContain("Tina Belcher");
+        expect(list.at(0).props().children).toContain("Bob Belcher");
+        expect(list.at(1).props().children).toContain("Tina Belcher");
     });
 
     it('dispatches adding human action on click of button', () => {
@@ -82,5 +85,13 @@ describe('Humans', () => {
             expect(addHuman).toHaveBeenCalledWith("name", "email");
             expect(wrapper.state().addHumanMode).toBe(false);
         });
+    });
+
+    describe('delete human', () => {
+        it('sends action on click', () => {
+            wrapper.find('.delete-human').at(0).simulate('click');
+            // expect(deleteHuman).toHaveBeenCalledWith({})
+        });
+
     });
 });

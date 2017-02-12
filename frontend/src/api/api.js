@@ -13,6 +13,6 @@ export function apiPost(url, body){
     return axiosInstance.post(url, body)
 }
 
-export function apiDelete(url){
-    return axiosInstance.delete(url)
+export function apiPut(url, body){
+    return axiosInstance.put(url, body)
 }
