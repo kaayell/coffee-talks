@@ -21,7 +21,7 @@ open class PairController
         pairService.record(id)
     }
 
-    @PostMapping("/matchAndRecord")
+//    @PostMapping("/matchAndRecord")
     open fun matchAndRecord() {
         pairService.matchAndRecord()
     }

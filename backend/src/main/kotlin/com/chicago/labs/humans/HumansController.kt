@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*
 open class HumansController
 @Autowired constructor(var humansService: HumansService) {
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+//    @PostMapping
+//    @ResponseStatus(HttpStatus.CREATED)
     open fun post(@RequestBody human: Human) {
         humansService.create(human)
     }
