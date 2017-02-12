@@ -21,6 +21,11 @@ open class PairController
         pairService.record(id)
     }
 
+    @PostMapping("/matchAndRecord")
+    open fun matchAndRecord() {
+        pairService.matchAndRecord()
+    }
+
     @GetMapping("/latest")
     open fun getLatest(): PairingList {
         return pairService.latest()

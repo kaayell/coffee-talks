@@ -100,6 +100,21 @@ class PairServiceTest {
         verify(recorderService).record(listOf(Pair(Human("email", "name"), Human("email", "name"))))
     }
 
+    @Test
+    fun `matchAndRecord matches and records`() {
+        doReturn(Human("bob@burger.com", "bob")).whenever(matcherService).findBestMatch(eq("louise@burger.com"), any(), any())
+        doReturn(Human("gene@burger.com", "gene")).whenever(matcherService).findBestMatch(eq("tina@burger.com"), any(), any())
+
+        pairService.matchAndRecord()
+
+        val argumentCaptor = argumentCaptor<PairingList>()
+        verify(pairingListRepository).save(argumentCaptor.capture())
+        assertThat(argumentCaptor.firstValue.recorded).isTrue()
+        assertThat(argumentCaptor.firstValue.pairingList).hasSize(2)
+
+        verify(recorderService).record(argumentCaptor.firstValue.pairingList)
+    }
+
     @Test(expected = PairingListNotFoundException::class)
     fun `record throws exception when pairing list cannot be found`() {
         doReturn(null).whenever(pairingListRepository).findFirstByInternalId(any())

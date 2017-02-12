@@ -61,6 +61,15 @@ class HumansControllerTest {
 //    }
 
     @Test
+    fun `has a GET endpoint for emails`() {
+        doReturn(listOf("email")).whenever(humansService).getEmails()
+        mockMvc.perform(get("/humans/emails")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").isNotEmpty)
+                .andExpect(status().isOk)
+    }
+
+    @Test
     fun `calls service to create on POST`() {
         val human = Human("Bobs Burgers", "bob@burgers.com")
         humansController.post(human)

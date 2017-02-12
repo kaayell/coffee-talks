@@ -14,7 +14,6 @@ open class MatcherService
                        var pairHistoryRepository: PairHistoryRepository) {
 
     open fun findBestMatch(email: String, humansList: List<Human>, humansAlreadyMatched: Set<Human>): Human? {
-
         val lowestPairHistory = humansList
                 .filter { email != it.email }
                 .filter { !humansAlreadyMatched.contains(it) }

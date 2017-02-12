@@ -21,6 +21,28 @@ open class PairService
                        val recorderService: RecorderService) {
 
     open fun match(): PairingList {
+        return match(false)
+    }
+
+    open fun record(pairListId: String) {
+        val pairingList = pairingListRepository.findFirstByInternalId(pairListId) ?: throw PairingListNotFoundException()
+
+        pairingList.recorded = true
+        pairingListRepository.save(pairingList)
+
+        recorderService.record(pairingList.pairingList!!)
+    }
+
+    open fun latest() : PairingList {
+        return pairingListRepository.findFirstByRecordedTrueOrderByTimestampDesc()
+    }
+
+    open fun matchAndRecord() {
+        val pairingList = match(true)
+        recorderService.record(pairingList.pairingList!!)
+    }
+
+    private fun match(shouldBeRecorded: Boolean): PairingList {
         val humans = shuffleService.shuffle(humanRepository.findAll())
 
         val pairs = ArrayList<Pair>()
@@ -41,21 +63,9 @@ open class PairService
         }
 
         val pairingList = PairingList(UUID.randomUUID().toString(), pairs, Date(), false)
+        pairingList.recorded = shouldBeRecorded
         pairingListRepository.save(pairingList)
         return pairingList
-    }
-
-    open fun record(pairListId: String) {
-        val pairingList = pairingListRepository.findFirstByInternalId(pairListId) ?: throw PairingListNotFoundException()
-
-        pairingList.recorded = true
-        pairingListRepository.save(pairingList)
-
-        recorderService.record(pairingList.pairingList!!)
-    }
-
-    open fun latest() : PairingList {
-        return pairingListRepository.findFirstByRecordedTrueOrderByTimestampDesc()
     }
 }
 

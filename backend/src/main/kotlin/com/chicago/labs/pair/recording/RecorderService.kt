@@ -10,6 +10,7 @@ import java.util.*
 @Service
 open class RecorderService
 @Autowired constructor(var pairHistoryRepository: PairHistoryRepository) {
+
     open fun record(pairingList: List<Pair>) {
         pairingList.forEach { pair ->
             val emailTwo = if (pair.second == null) {

@@ -19,4 +19,8 @@ open class HumansService
     open fun remove(human: Human) {
         humanRepository.deleteHumanByEmail(human.email)
     }
+
+    open fun getEmails() : List<String> {
+        return humanRepository.findAll().map { it.email }
+    }
 }

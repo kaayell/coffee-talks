@@ -36,6 +36,13 @@ class HumansServiceTest {
     }
 
     @Test
+    fun `gets all humans emails`() {
+        doReturn(listOf(Human("email1", "human1"), Human("email2", "human2"))).whenever(humanRepository).findAll()
+        val emails = humansService.getEmails()
+        assertThat(emails).isEqualTo(listOf("email1", "email2"))
+    }
+
+    @Test
     fun `gets human from repo and deletes them`() {
         humansService.remove(Human("email", ""))
 
