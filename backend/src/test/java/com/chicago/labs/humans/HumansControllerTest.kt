@@ -29,16 +29,16 @@ class HumansControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(humansController).build()
     }
 
-    @Test
-    fun `has a POST endpoint`() {
-        mockMvc.perform(post("/humans")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{ " +
-                        "\"name\": \"Boop\"," +
-                        "\"email\": \"boop@beep.com\"" +
-                        "}"))
-                .andExpect(status().isCreated)
-    }
+//    @Test
+//    fun `has a POST endpoint`() {
+//        mockMvc.perform(post("/humans")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content("{ " +
+//                        "\"name\": \"Boop\"," +
+//                        "\"email\": \"boop@beep.com\"" +
+//                        "}"))
+//                .andExpect(status().isCreated)
+//    }
 
     @Test
     fun `has a GET endpoint`() {
@@ -49,16 +49,16 @@ class HumansControllerTest {
                 .andExpect(status().isOk)
     }
 
-    @Test
-    fun `has a PUT endpoint to deactivate`(){
-        mockMvc.perform(put("/humans/remove")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{ " +
-                        "\"name\": \"Boop\"," +
-                        "\"email\": \"boop@beep.com\"" +
-                        "}"))
-                .andExpect(status().isOk)
-    }
+//    @Test
+//    fun `has a PUT endpoint to deactivate`(){
+//        mockMvc.perform(put("/humans/remove")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content("{ " +
+//                        "\"name\": \"Boop\"," +
+//                        "\"email\": \"boop@beep.com\"" +
+//                        "}"))
+//                .andExpect(status().isOk)
+//    }
 
     @Test
     fun `calls service to create on POST`() {

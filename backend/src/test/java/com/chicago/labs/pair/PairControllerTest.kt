@@ -55,14 +55,14 @@ class PairControllerTest {
         verify(pairService).match()
     }
 
-    @Test
-    fun `has a pair record POST endpoint`() {
-        mockMvc.perform(post("/pair/record/818191010")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk)
-
-        verify(pairService).record("818191010")
-    }
+//    @Test
+//    fun `has a pair record POST endpoint`() {
+//        mockMvc.perform(post("/pair/record/818191010")
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk)
+//
+//        verify(pairService).record("818191010")
+//    }
 
     @Test
     fun `has a latest pair GET endpoint`() {
