@@ -51,12 +51,6 @@ export class App extends Component {
         return (
             <div>
                 <Header />
-                <div className="button-container">
-                    <Button waves='light' className="new-pairs-button" onClick={this.handleNewPairsClick}>New
-                        Pairs</Button>
-                    <Button waves='light' className="record-pairs-button" onClick={this.handleRecordPairsClick}>Record
-                        Pairs</Button>
-                </div>
                 <div className="pair-list-container">
                     { this.renderPairs() }
                 </div>

@@ -14,9 +14,9 @@ describe('Header', () => {
     });
 
     it('renders', () => {
-        let nav = wrapper.find('.nav');
+        let nav = wrapper.find('Navbar');
         expect(nav.length).toBe(1);
-        expect(nav.text()).toContain("Coffee Talks");
+        expect(nav.props().brand).toContain("Coffee Talks");
 
         let link = wrapper.find('Link');
         expect(link.props().to).toContain("pivots");

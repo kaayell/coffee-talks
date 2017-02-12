@@ -64,16 +64,4 @@ describe('App', () => {
         expect(list.at(2).text()).toContain("Bob Belcher");
         expect(list.at(3).text()).toContain("Linda Belcher")
     });
-
-    it('dispatches new pairs action on click of new pairs button', () => {
-        let newPairsButton = wrapper.find('.new-pairs-button');
-        newPairsButton.simulate('click');
-        expect(fetchNewPairs).toBeCalled();
-    });
-
-    it('dispatches record pairs action on click of record pairs button', () => {
-        let newPairsButton = wrapper.find('.record-pairs-button');
-        newPairsButton.simulate('click');
-        expect(recordPairingList).toBeCalledWith("id");
-    });
 });

@@ -60,9 +60,7 @@ export class Humans extends Component {
             return (
                 <div key={index} className="human-container">
                     <Card className='human teal darken-1'
-                          textClassName='white-text'
-                          actions={[<a key={index} className="delete-human"
-                                         onClick={this.handleDeleteHumanClick.bind(this, human)}>Remove</a>]}>
+                          textClassName='white-text'>
                         {human.name} <br/> {human.email}
                     </Card>
                 </div>
@@ -71,40 +69,10 @@ export class Humans extends Component {
 
     }
 
-    renderAddForm() {
-        if (!this.state.addHumanMode) {
-            return <Button floating className="plus-button" waves='light' icon='add'
-                           onClick={this.handlePlusButtonClick}/>
-        }
-
-        return (
-            <div className="add-human-form">
-                <div className="input-field">
-                    <input id="name" type="text" className="validate add-human-name-field"
-                           onChange={this.setName}/>
-                    <label htmlFor="name">Name</label>
-                </div>
-                <div className="input-field add-human-email-field">
-                    <input id="email" type="email" className="validate"
-                           onChange={this.setEmail}/>
-                    <label htmlFor="email">Email</label>
-                </div>
-                <Button waves='light' className="add-human-button"
-                        onClick={this.handleAddHumanClick}>
-                    Add
-                </Button>
-                <Button waves='light' className="cancel-human-button"
-                        onClick={this.handleCancelHumanClick}>
-                    Cancel
-                </Button>
-            </div>)
-    }
-
     render() {
         return (
             <div>
                 <Header />
-                {this.renderAddForm()}
                 <div className="human-list-container">
                     {this.renderHumans()}
                 </div>
