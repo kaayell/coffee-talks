@@ -8,51 +8,10 @@ export class Humans extends Component {
 
     constructor(props) {
         super(props);
-
-        this.setName = this.setName.bind(this);
-        this.setEmail = this.setEmail.bind(this);
-        this.handleAddHumanClick = this.handleAddHumanClick.bind(this);
-        this.handleCancelHumanClick = this.handleCancelHumanClick.bind(this);
-        this.handlePlusButtonClick = this.handlePlusButtonClick.bind(this);
-
-        this.state = {
-            addHumanMode: false,
-            name: undefined,
-            email: undefined
-        };
     }
 
     componentWillMount() {
         this.props.fetchHumans();
-    }
-
-    setName(event) {
-        this.setState({name: event.target.value});
-    }
-
-    setEmail(event) {
-        this.setState({email: event.target.value});
-    }
-
-    handleAddHumanClick() {
-        if (!this.state.name || !this.state.email) {
-            return;
-        }
-
-        this.props.addHuman(this.state.name, this.state.email);
-        this.setState({addHumanMode: false, name: undefined, email: undefined})
-    }
-
-    handleCancelHumanClick() {
-        this.setState({addHumanMode: false, name: undefined, email: undefined})
-    }
-
-    handlePlusButtonClick() {
-        this.setState({addHumanMode: true});
-    }
-
-    handleDeleteHumanClick(human) {
-        this.props.deleteHuman(human);
     }
 
     renderHumans() {
@@ -91,6 +50,4 @@ function mapStateToProps(state) {
 }
 export default connect(mapStateToProps, {
     fetchHumans,
-    addHuman,
-    deleteHuman
 })(Humans)

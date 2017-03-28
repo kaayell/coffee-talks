@@ -16,12 +16,12 @@ open class PairController
         return pairService.match()
     }
 
-//    @PostMapping("/record/{id}")
+    @PostMapping("/record/{id}")
     open fun post(@PathVariable id: String) {
         pairService.record(id)
     }
 
-//    @PostMapping("/matchAndRecord")
+    @PostMapping("/matchAndRecord")
     open fun matchAndRecord() {
         pairService.matchAndRecord()
     }

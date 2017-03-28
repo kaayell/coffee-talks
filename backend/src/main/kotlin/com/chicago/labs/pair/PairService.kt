@@ -10,6 +10,8 @@ import com.chicago.labs.pair.matching.ShuffleService
 import com.chicago.labs.pair.recording.RecorderService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.Clock
+import java.time.LocalDate
 import java.util.*
 
 @Service
@@ -18,6 +20,7 @@ open class PairService
                        val pairingListRepository: PairingListRepository,
                        val shuffleService: ShuffleService,
                        val matcherService: MatcherService,
+                       val clock: Clock,
                        val recorderService: RecorderService) {
 
     open fun match(): PairingList {
@@ -33,7 +36,7 @@ open class PairService
         recorderService.record(pairingList.pairingList!!)
     }
 
-    open fun latest() : PairingList {
+    open fun latest(): PairingList {
         return pairingListRepository.findFirstByRecordedTrueOrderByTimestampDesc()
     }
 
@@ -62,7 +65,7 @@ open class PairService
             alreadyMatched.add(it)
         }
 
-        val pairingList = PairingList(UUID.randomUUID().toString(), pairs, Date(), false)
+        val pairingList = PairingList(UUID.randomUUID().toString(), pairs, LocalDate.now(clock), false)
         pairingList.recorded = shouldBeRecorded
         pairingListRepository.save(pairingList)
         return pairingList

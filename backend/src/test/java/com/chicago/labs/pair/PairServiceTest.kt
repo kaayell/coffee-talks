@@ -1,9 +1,9 @@
 package com.chicago.labs.pair
 
 import com.chicago.labs.domain.Human
-import com.chicago.labs.humans.HumanRepository
 import com.chicago.labs.domain.Pair
 import com.chicago.labs.domain.PairingList
+import com.chicago.labs.humans.HumanRepository
 import com.chicago.labs.pair.error.PairingListNotFoundException
 import com.chicago.labs.pair.matching.MatcherService
 import com.chicago.labs.pair.matching.ShuffleService
@@ -13,7 +13,10 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.verify
-import java.util.*
+import java.time.Clock
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 
 class PairServiceTest {
 
@@ -23,6 +26,7 @@ class PairServiceTest {
     lateinit var humanRepository: HumanRepository
     lateinit var pairingListRepository: PairingListRepository
     lateinit var pairService: PairService
+    lateinit var mockClock: Clock
 
     @Before
     fun setUp() {
@@ -31,8 +35,9 @@ class PairServiceTest {
         matcherService = mock()
         recorderService = mock()
         shuffleService = mock()
+        mockClock = mock()
         pairService = PairService(humanRepository, pairingListRepository,
-                shuffleService, matcherService, recorderService)
+                shuffleService, matcherService, mockClock, recorderService)
 
         doReturn(listOf(
                 Human("bob@burger.com", "bob"),
@@ -47,11 +52,14 @@ class PairServiceTest {
                 Human("bob@burger.com", "bob"),
                 Human("gene@burger.com", "gene")))
                 .whenever(shuffleService).shuffle(any())
+
+        whenever(mockClock.instant()).thenReturn(Instant.ofEpochMilli(1490331600000))
+        whenever(mockClock.zone).thenReturn(ZoneId.of("America/Chicago"))
     }
 
     @Test
     fun `latest returns most recent recorded pair list`() {
-        val expectedPairingList = PairingList(null, listOf(Pair(Human("", ""), Human("", ""))), Date(), false)
+        val expectedPairingList = PairingList(null, listOf(Pair(Human("", ""), Human("", ""))), LocalDate.now(), false)
         doReturn(expectedPairingList).whenever(pairingListRepository).findFirstByRecordedTrueOrderByTimestampDesc()
         val actualPairingList = pairService.latest()
         assertThat(actualPairingList).isEqualTo(expectedPairingList)
@@ -89,7 +97,7 @@ class PairServiceTest {
         doReturn(PairingList(null, listOf(Pair(
                         Human("email", "name"),
                         Human("email", "name"))),
-                Date(), false)).whenever(pairingListRepository).findFirstByInternalId("12345")
+                LocalDate.now(), false)).whenever(pairingListRepository).findFirstByInternalId("12345")
         pairService.record("12345")
 
         val argumentCaptor = argumentCaptor<PairingList>()

@@ -15,17 +15,17 @@ open class MatcherService
 
     open fun findBestMatch(email: String, humansList: List<Human>, humansAlreadyMatched: Set<Human>): Human? {
         val lowestPairHistory = humansList
-                .filter { email != it.email }
-                .filter { !humansAlreadyMatched.contains(it) }
-                .map {
-                    human ->
-                    val pairHistory = pairHistoryRepository.findOneByEmailOneAndEmailTwo(email, human.email!!) ?:
-                            pairHistoryRepository.findOneByEmailOneAndEmailTwo(human.email!!, email)
-                    pairHistory ?: PairHistory(
-                            UUID.randomUUID().toString(), email, human.email,
-                            0, Date())
-                }
-                .minBy { pairHistory -> pairHistory.timesPaired ?: 0 }
+            .filter { email != it.email }
+            .filter { !humansAlreadyMatched.contains(it) }
+            .map {
+                human ->
+                val pairHistory = pairHistoryRepository.findOneByEmailOneAndEmailTwo(email, human.email!!) ?:
+                    pairHistoryRepository.findOneByEmailOneAndEmailTwo(human.email!!, email)
+                pairHistory ?: PairHistory(
+                    UUID.randomUUID().toString(), email, human.email,
+                    0, Date())
+            }
+            .minBy { pairHistory -> pairHistory.timesPaired ?: 0 }
 
         val humanEmailThatIsNotMe = if (lowestPairHistory?.emailOne.equals(email)) {
             lowestPairHistory?.emailTwo

@@ -2,20 +2,20 @@ package com.chicago.labs.domain;
 
 import org.springframework.data.annotation.PersistenceConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class PairingList {
     private String internalId;
     private List<Pair> pairingList;
-    private Date timestamp;
+    private LocalDate timestamp;
     private Boolean recorded;
 
     public PairingList() {
     }
 
     @PersistenceConstructor
-    public PairingList(final String internalId, final List<Pair> pairingList, final Date timestamp, final Boolean recorded) {
+    public PairingList(final String internalId, final List<Pair> pairingList, final LocalDate timestamp, final Boolean recorded) {
         this.internalId = internalId;
         this.pairingList = pairingList;
         this.timestamp = timestamp;
@@ -26,15 +26,15 @@ public class PairingList {
         this.recorded = recorded;
     }
 
-    public String getInternalId() {
-        return internalId;
+    public void setTimestamp(LocalDate timestamp) {
+        this.timestamp = timestamp;
     }
 
     public List<Pair> getPairingList() {
         return pairingList;
     }
 
-    public Date getTimestamp() {
+    public LocalDate getTimestamp() {
         return timestamp;
     }
 
