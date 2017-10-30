@@ -1,34 +1,17 @@
-package com.chicago.labs.humans
+package com.chicago.labs.pair
 
-import com.chicago.labs.pair.PairService
 import com.chicago.labs.domain.PairingList
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin
 @RequestMapping("/pair")
-open class PairController
-@Autowired constructor(var pairService: PairService) {
-
-    @GetMapping
-    open fun get(): PairingList {
-        return pairService.match()
-    }
-
-    @PostMapping("/record/{id}")
-    open fun post(@PathVariable id: String) {
-        pairService.record(id)
-    }
+open class PairController(var pairService: PairService) {
 
     @PostMapping("/matchAndRecord")
-    open fun matchAndRecord() {
-        pairService.matchAndRecord()
-    }
+    open fun matchAndRecord(): PairingList = pairService.matchAndRecord()
 
     @GetMapping("/latest")
-    open fun getLatest(): PairingList {
-        return pairService.latest()
-    }
+    open fun getLatest(): PairingList = pairService.latest()
 }
 

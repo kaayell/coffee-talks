@@ -5,8 +5,7 @@ import org.springframework.stereotype.Service
 import org.springframework.beans.factory.annotation.Autowired
 
 @Service
-open class HumansService
-@Autowired constructor(var humanRepository: HumanRepository) {
+open class HumansService(var humanRepository: HumanRepository) {
 
     open fun create(human: Human) {
         humanRepository.save(human)

@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @CrossOrigin
 @RequestMapping("/humans")
-open class HumansController
-@Autowired constructor(var humansService: HumansService) {
+open class HumansController(var humansService: HumansService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

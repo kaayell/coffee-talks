@@ -4,6 +4,5 @@ import com.chicago.labs.domain.PairingList
 import org.springframework.data.mongodb.repository.MongoRepository
 
 interface PairingListRepository : MongoRepository<PairingList, String> {
-    fun findFirstByInternalId(internalId: String): PairingList?
-    fun findFirstByRecordedTrueOrderByTimestampDesc(): PairingList
+    fun findTopByOrderByTimestampDesc(): PairingList
 }

@@ -7,10 +7,7 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
-import java.time.Clock
-import java.time.Instant
-import java.time.LocalDate
-import java.time.ZoneId
+import java.time.*
 
 class MatchAndRecordSchedulerTest {
 
@@ -30,7 +27,7 @@ class MatchAndRecordSchedulerTest {
         whenever(mockClock.instant()).thenReturn(Instant.ofEpochMilli(1490331600000))
         whenever(mockClock.zone).thenReturn(ZoneId.of("America/Chicago"))
 
-        val pairingList = PairingList().apply { timestamp = LocalDate.of(2017, 3, 10) }
+        val pairingList = PairingList().apply { timestamp = LocalDateTime.of(2017, 3, 10, 0, 0) }
         whenever(mockPairService.latest()).thenReturn(pairingList)
 
         matchAndRecordScheduler.match()

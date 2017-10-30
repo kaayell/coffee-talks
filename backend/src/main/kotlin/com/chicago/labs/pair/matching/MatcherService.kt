@@ -9,23 +9,21 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-open class MatcherService
-@Autowired constructor(var humanRepository: HumanRepository,
-                       var pairHistoryRepository: PairHistoryRepository) {
+open class MatcherService(var humanRepository: HumanRepository,
+                          var pairHistoryRepository: PairHistoryRepository) {
 
     open fun findBestMatch(email: String, humansList: List<Human>, humansAlreadyMatched: Set<Human>): Human? {
         val lowestPairHistory = humansList
-            .filter { email != it.email }
-            .filter { !humansAlreadyMatched.contains(it) }
-            .map {
-                human ->
-                val pairHistory = pairHistoryRepository.findOneByEmailOneAndEmailTwo(email, human.email!!) ?:
-                    pairHistoryRepository.findOneByEmailOneAndEmailTwo(human.email!!, email)
-                pairHistory ?: PairHistory(
-                    UUID.randomUUID().toString(), email, human.email,
-                    0, Date())
-            }
-            .minBy { pairHistory -> pairHistory.timesPaired ?: 0 }
+                .filter { email != it.email }
+                .filter { !humansAlreadyMatched.contains(it) }
+                .map { human ->
+                    val pairHistory = pairHistoryRepository.findOneByEmailOneAndEmailTwo(email, human.email!!) ?:
+                            pairHistoryRepository.findOneByEmailOneAndEmailTwo(human.email!!, email)
+                    pairHistory ?: PairHistory(
+                            UUID.randomUUID().toString(), email, human.email,
+                            0, Date())
+                }
+                .minBy { pairHistory -> pairHistory.timesPaired ?: 0 }
 
         val humanEmailThatIsNotMe = if (lowestPairHistory?.emailOne.equals(email)) {
             lowestPairHistory?.emailTwo

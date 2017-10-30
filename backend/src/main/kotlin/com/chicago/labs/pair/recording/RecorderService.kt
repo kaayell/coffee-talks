@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-open class RecorderService
-@Autowired constructor(var pairHistoryRepository: PairHistoryRepository) {
+open class RecorderService(var pairHistoryRepository: PairHistoryRepository) {
 
     open fun record(pairingList: List<Pair>) {
         pairingList.forEach { pair ->
@@ -20,13 +19,8 @@ open class RecorderService
             }
             val pairHistory = pairHistoryRepository.findOneByEmailOneAndEmailTwo(pair.first?.email!!, emailTwo!!)
             if (pairHistory == null) {
-                pairHistoryRepository.save(PairHistory(
-                        UUID.randomUUID().toString(),
-                        pair.first?.email!!,
-                        emailTwo,
-                        0,
-                        Date()
-                ))
+                pairHistoryRepository.save(PairHistory(UUID.randomUUID().toString(),
+                        pair.first?.email!!, emailTwo, 0, Date()))
             } else {
                 pairHistory.timesPaired = pairHistory.timesPaired!! + 1
                 pairHistory.lastPairDate = Date()
